@@ -1,0 +1,22 @@
+title: Who Is My Neta
+description: Find your election candidates easily
+baseurl: ""
+url: "https://yourusername.github.io"
+collections:
+  candidates:
+    output: true
+    permalink: /candidate/:name/
+  constituencies:
+    output: true
+    permalink: /constituency/:slug/
+defaults:
+  - scope:
+      path: ""
+      type: "candidates"
+    values:
+      layout: "candidate"
+  - scope:
+      path: ""
+      type: "constituencies"
+    values:
+      layout: "constituency"
