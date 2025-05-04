@@ -87,7 +87,7 @@ font-weight: 700;
     text-wrap: pretty;
     width: -moz-fit-content;
     width: fit-content;
-    font-family: LibreCaslonCondensed, serif;
+    font-family: "Playfair Display", serif;
 }
 
 </style>
