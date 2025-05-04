@@ -33,6 +33,11 @@ title: Who Is My Neta
     height: auto;
     display: block;
   }
+
+  #map-container path:hover {
+  fill: #87ceeb !important;
+}
+
 </style>
 
 
