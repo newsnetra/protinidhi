@@ -40,7 +40,6 @@ title: Who Is My Neta
 
 </style>
 
-
 <div id="layout">
   <div id="map-container"></div>
 
@@ -52,7 +51,6 @@ title: Who Is My Neta
   </div>
 
   <div id="other-candidates" style="padding: 1rem;"></div>
-
 </div>
 
 <div id="tooltip"></div>
@@ -72,7 +70,7 @@ title: Who Is My Neta
 
     const selectedElection = select.value;
     const seatName = currentConstituency.replace(/-/g, ' ').toUpperCase();
-    contentDiv.innersHTML = `<h2>${seatName}</h2>`;
+    contentDiv.innerHTML = `<h2>${seatName}</h2>`;
 
     const filtered = candidates.filter(c =>
       c.Constituency.toLowerCase() === currentConstituency &&
@@ -80,23 +78,21 @@ title: Who Is My Neta
     );
 
     if (filtered.length === 0) {
-      contentDiv.innersHTML += "<p>No candidates found.</p>";
-      othersDiv.innersHTML = "";
+      contentDiv.innerHTML += "<p>No candidates found.</p>";
+      othersDiv.innerHTML = "";
       return;
     }
 
-const winners = filtered.find(c => {
-  const val = (c.Winners ?? '').toString().trim().toLowerCase();
-  console.log("Checking:", val, c.Name);
-  return val === 'yes';
-});
+    const winners = filtered.find(c => {
+      const val = (c.Winners ?? '').toString().trim().toLowerCase();
+      console.log("Checking:", val, c.Name);
+      return val === 'yes';
+    });
 
-
-console.log("Winners values:", filtered.map(c => c.Winners));
-
+    console.log("Winners values:", filtered.map(c => c.Winners));
 
     if (winners) {
-      contentDiv.innersHTML += `
+      contentDiv.innerHTML += `
         <h3>Winner: ${winners.Name}</h3>
         <p><strong>Party:</strong> ${winners["Political Party"]}</p>
         <p><strong>Father:</strong> ${winners["Father Name"]}</p>
@@ -106,10 +102,9 @@ console.log("Winners values:", filtered.map(c => c.Winners));
       `;
     }
 
-    // Show rest under map area
-    const nonWinnerss = filtered.filter(c => c.ID !== (winners ? winners.ID : null));
-    othersDiv.innersHTML = nonWinnerss.length
-      ? `<h3>Other Candidates</h3><ul>${nonWinnerss.map(c => `
+    const nonWinners = filtered.filter(c => c.ID !== (winners ? winners.ID : null));
+    othersDiv.innerHTML = nonWinners.length
+      ? `<h3>Other Candidates</h3><ul>${nonWinners.map(c => `
             <li><a href="/candidate/${c.ID}/">${c.Name}</a> (${c["Political Party"]})</li>`).join("")}</ul>`
       : "";
   }
@@ -117,7 +112,7 @@ console.log("Winners values:", filtered.map(c => c.Winners));
   fetch('GRED_20190215_Bangladesh/bd_constituencies_shapefile/bangladesh_constituencies.svg')
     .then(res => res.text())
     .then(svg => {
-      document.getElementById("map-container").innersHTML = svg;
+      document.getElementById("map-container").innerHTML = svg;
 
       const allPaths = document.querySelectorAll('#map-container path');
 
@@ -149,10 +144,10 @@ console.log("Winners values:", filtered.map(c => c.Winners));
           });
 
           electionOptions = Object.entries(elections)
-            .sort((a, b) => a[1] - b[1]) // Prefer lowest Order first
+            .sort((a, b) => a[1] - b[1])
             .map(e => e[0]);
 
-          select.innersHTML = electionOptions.map(e => `<option value="${e}">${e}</option>`).join("");
+          select.innerHTML = electionOptions.map(e => `<option value="${e}">${e}</option>`).join("");
           select.value = electionOptions[0];
           select.style.display = 'inline-block';
           label.style.display = 'inline-block';
@@ -185,7 +180,7 @@ console.log("Winners values:", filtered.map(c => c.Winners));
           .sort((a, b) => a[1] - b[1])
           .map(e => e[0]);
 
-        select.innersHTML = electionOptions.map(e => `<option value="${e}">${e}</option>`).join("");
+        select.innerHTML = electionOptions.map(e => `<option value="${e}">${e}</option>`).join("");
         select.value = electionOptions[0];
         select.style.display = 'inline-block';
         label.style.display = 'inline-block';
@@ -194,5 +189,3 @@ console.log("Winners values:", filtered.map(c => c.Winners));
       }
     });
 </script>
-
-
