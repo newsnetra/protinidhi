@@ -64,6 +64,9 @@ title: Who Is My Neta
   let electionOptions = [];
 
   function updateContent() {
+    const seatName = currentConstituency.replace(/-/g, ' ').toUpperCase();
+contentDiv.innerHTML = `<h2>${seatName}</h2>`;
+
     const selectedElection = select.value;
     if (!currentConstituency || !selectedElection) return;
 
@@ -72,9 +75,9 @@ title: Who Is My Neta
       c.election === selectedElection
     );
 
-    contentDiv.innerHTML = filtered.length
-      ? `<ul>${filtered.map(c => `<li><a href="/candidate/${c.ID}/">${c.Name}</a> (${c["Political Party"]})</li>`).join("")}</ul>`
-      : "<p>No candidates found.</p>";
+    contentDiv.innerHTML += filtered.length
+  ? `<ul>${filtered.map(c => `<li><a href="/candidate/${c.ID}/">${c.Name}</a> (${c["Political Party"]})</li>`).join("")}</ul>`
+  : "<p>No candidates found.</p>";
   }
 
   fetch('GRED_20190215_Bangladesh/bd_constituencies_shapefile/bangladesh_constituencies.svg')
