@@ -6,10 +6,10 @@ title: Who Is My Neta
 <input type="text" id="search" placeholder="Search candidates...">
 
 <ul id="candidate-list">
-  {% assign candidates = site.candidates | sort: "name" %}
-  {% for candidate in candidates %}
-    <li data-name="{{ candidate.name | downcase }}">
-      <a href="{{ candidate.url }}">{{ candidate.name }} ({{ candidate.constituency }})</a>
+  {% assign candidates = site.data.all_candidates_national_elections_bangladesh %}
+  {% for c in candidates %}
+    <li data-name="{{ c.Name | downcase }}">
+      <a href="/candidate/{{ c.ID }}/">{{ c.Name }} ({{ c.Seat }})</a>
     </li>
   {% endfor %}
 </ul>
