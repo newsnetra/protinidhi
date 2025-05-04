@@ -80,6 +80,15 @@ title: Who Is My Neta
 .party-gono-forum { background: #5555aa; color: #fff; }
 .party-kalyan-party { background: #884400; color: #fff; }
 
+.winner-name {
+font-weight: 700;
+    font-size: 2.25rem;
+    line-height: 2.5rem;
+    text-wrap: pretty;
+    width: -moz-fit-content;
+    width: fit-content;
+    font-family: LibreCaslonCondensed, serif;
+}
 
 </style>
 
@@ -141,7 +150,7 @@ title: Who Is My Neta
   <strong></strong> ${winners["Political Party"]}
 </p>
 
-    <h3 class="winner-name">Winner: ${winners.Name}</h3>
+    <h3 class="winner-name">Incumbent: ${winners.Name}</h3>
     <p class="winner-father"><strong>Father:</strong> ${winners["Father Name"]}</p>
     <p class="winner-mother"><strong>Mother:</strong> ${winners["Mother Name"]}</p>
     <p class="winner-profession"><strong>Profession:</strong> ${winners["Profession"]}</p>
