@@ -6,12 +6,12 @@ title: Who Is My Neta
 <div id="map-container"></div>
 
 <script>
-  fetch('GRED_20190215_Bangladesh/bd_constituencies_shapefile/bangladesh_constituencies.svg')
+  fetch('/assets/svg/bangladesh_constituencies.svg')
     .then(res => res.text())
     .then(svg => {
       document.getElementById("map-container").innerHTML = svg;
 
-      // After SVG is loaded, bind tooltip + click
+      // Tooltip
       const tooltip = document.createElement("div");
       tooltip.style.position = "absolute";
       tooltip.style.padding = "4px 8px";
@@ -64,7 +64,6 @@ title: Who Is My Neta
       : "<li>No candidates found</li>";
   }
 
-  // Initial: show none
   renderList([]);
 
   // 🔍 Text Search
@@ -72,18 +71,5 @@ title: Who Is My Neta
     const q = searchInput.value.toLowerCase();
     const filtered = candidates.filter(c => c.Name.toLowerCase().includes(q));
     renderList(filtered);
-  });
-
-  // 🗺️ Map Click
-  document.querySelectorAll('#map-container path').forEach(path => {
-    path.style.cursor = 'pointer';
-    path.addEventListener('click', () => {
-      const id = path.id.toLowerCase(); // e.g., "dhaka-8"
-      const filtered = candidates.filter(c =>
-        c.Seat.toLowerCase().replace(/\s+/g, "-") === id
-      );
-      searchInput.value = ""; // clear search box
-      renderList(filtered);
-    });
   });
 </script>
