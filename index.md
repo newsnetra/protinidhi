@@ -82,7 +82,9 @@ title: Who Is My Neta
     .then(svg => {
       document.getElementById("map-container").innerHTML = svg;
 
-      document.querySelectorAll('#map-container path').forEach(path => {
+      const allPaths = document.querySelectorAll('#map-container path');
+
+      allPaths.forEach(path => {
         const seatId = path.id;
         path.style.cursor = 'pointer';
 
@@ -100,7 +102,6 @@ title: Who Is My Neta
         path.addEventListener('click', () => {
           currentConstituency = seatId.toLowerCase();
 
-          // Filter unique elections with Order and sort by Order desc
           const related = candidates.filter(c =>
             c.Constituency.toLowerCase() === currentConstituency
           );
@@ -114,7 +115,6 @@ title: Who Is My Neta
             .sort((a, b) => b[1] - a[1])
             .map(e => e[0]);
 
-          // Populate dropdown
           select.innerHTML = electionOptions.map(e => `<option value="${e}">${e}</option>`).join("");
           select.style.display = 'inline-block';
           label.style.display = 'inline-block';
@@ -124,5 +124,11 @@ title: Who Is My Neta
       });
 
       select.addEventListener('change', updateContent);
+
+      // ✅ Auto-select a random constituency on load
+      const allConstituencies = [...new Set(candidates.map(c => c.Constituency.toLowerCase()))];
+      const randomConstituency = allConstituencies[Math.floor(Math.random() * allConstituencies.length)];
+      const randomPath = document.querySelector(`#map-container path[id="${randomConstituency}"]`);
+      if (randomPath) randomPath.dispatchEvent(new Event('click'));
     });
 </script>
