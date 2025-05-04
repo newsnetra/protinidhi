@@ -85,10 +85,13 @@ title: Who Is My Neta
       return;
     }
 
-    // Show winner with details
-    const winner = filtered.find(c =>
-  (c.Winner || "").toString().trim().toLowerCase() === "Yes"
-);
+   const winner = filtered.find(c => {
+  const val = (c.Winner ?? '').toString().trim().toLowerCase();
+  return val === 'Yes';
+});
+
+console.log("Winner values:", filtered.map(c => c.Winner));
+
 
     if (winner) {
       contentDiv.innerHTML += `
