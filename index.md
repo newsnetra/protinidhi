@@ -31,7 +31,7 @@ title: Who Is My Neta
   const candidates = {{ site.data.all_candidates_national_elections_bangladesh | jsonify }};
   const tooltip = document.getElementById("tooltip");
 
-  fetch('/assets/svg/bangladesh_constituencies.svg')
+  fetch('GRED_20190215_Bangladesh/bd_constituencies_shapefile/bangladesh_constituencies.svg')
     .then(res => res.text())
     .then(svg => {
       document.getElementById("map-container").innerHTML = svg;
