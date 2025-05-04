@@ -95,19 +95,7 @@ font-weight: 700;
     font-family: "Playfair Display", serif;
 }
 
-a.learn-more-button {
-    color: #fff;
-    background-color: #6C6B66;
-    letter-spacing: .05em;
-    font-weight: 500;
-    font-size: .875rem;
-    line-height: 1.25rem;
-    padding: .5rem 1rem;
-}
 
-a.learn-more-button:hover {
-    background: #595851;
-}
 
 #other-candidates ul {
   display: grid;
@@ -126,9 +114,11 @@ a.learn-more-button:hover {
 }
 
 #other-candidates li a {
-  font-weight: 600;
-  color: #333;
-  text-decoration: none;
+ color: gray;
+    text-decoration: none;
+    background-color: #F0EFEB;
+    font-size: .75rem;
+    padding: .25rem .5rem;
 }
 
 #other-candidates li a:hover {
@@ -164,19 +154,13 @@ a.learn-more-button:hover {
 }
 
 .learn-more-button {
-  display: inline-block;
-  margin-top: 0.4rem;
-  padding: 6px 12px;
-  background: #007BFF;
-  color: white;
-  border-radius: 4px;
-  text-decoration: none;
-  font-size: 0.875rem;
-  font-weight: 600;
-}
-
-.learn-more-button:hover {
-  background: #0056b3;
+ color: #fff;
+    background-color: #6C6B66;
+    letter-spacing: .05em;
+    font-weight: 500;
+    font-size: .875rem;
+    line-height: 1.25rem;
+    padding: .5rem 1rem;
 }
 
 
