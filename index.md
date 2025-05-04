@@ -3,25 +3,38 @@ layout: home
 title: Who Is My Neta
 ---
 
-<div id="map-container"></div>
+<style>
+  #tooltip {
+    position: absolute;
+    padding: 4px 8px;
+    background: #333;
+    color: #fff;
+    border-radius: 4px;
+    font-size: 12px;
+    pointer-events: none;
+    display: none;
+  }
+</style>
+
+<div style="display: flex; gap: 2rem;">
+  <div id="map-container" style="flex: 1;"></div>
+
+  <div id="constituency-detail" style="flex: 1;">
+    <h2>Click a constituency</h2>
+    <div id="constituency-content"></div>
+  </div>
+</div>
+
+<div id="tooltip"></div>
 
 <script>
-  fetch('GRED_20190215_Bangladesh/bd_constituencies_shapefile/bangladesh_constituencies.svg')
+  const candidates = {{ site.data.all_candidates_national_elections_bangladesh | jsonify }};
+  const tooltip = document.getElementById("tooltip");
+
+  fetch('/assets/svg/bangladesh_constituencies.svg')
     .then(res => res.text())
     .then(svg => {
       document.getElementById("map-container").innerHTML = svg;
-
-      // Tooltip
-      const tooltip = document.createElement("div");
-      tooltip.style.position = "absolute";
-      tooltip.style.padding = "4px 8px";
-      tooltip.style.background = "#333";
-      tooltip.style.color = "#fff";
-      tooltip.style.borderRadius = "4px";
-      tooltip.style.fontSize = "12px";
-      tooltip.style.pointerEvents = "none";
-      tooltip.style.display = "none";
-      document.body.appendChild(tooltip);
 
       document.querySelectorAll('#map-container path').forEach(path => {
         const seatId = path.id;
@@ -39,37 +52,32 @@ title: Who Is My Neta
         });
 
         path.addEventListener('click', () => {
-          window.location.href = "/constituency/" + seatId + "/";
+          const id = path.id.toLowerCase(); // e.g. "netrokona-2"
+          const filtered = candidates.filter(c =>
+            c.Constituency.toLowerCase() === id
+          );
+
+          const target = document.getElementById("constituency-content");
+
+          if (filtered.length) {
+            const grouped = {};
+            filtered.forEach(c => {
+              if (!grouped[c.election]) grouped[c.election] = [];
+              grouped[c.election].push(c);
+            });
+
+            target.innerHTML = Object.keys(grouped).map(election => `
+              <h3>${election}</h3>
+              <ul>
+                ${grouped[election].map(c => `
+                  <li><a href="/candidate/${c.ID}/">${c.Name}</a> (${c["Political Party"]})</li>
+                `).join("")}
+              </ul>
+            `).join("");
+          } else {
+            target.innerHTML = `<p>No data for ${id}</p>`;
+          }
         });
       });
     });
-</script>
-
-<hr>
-
-<input type="text" id="search" placeholder="Search candidates...">
-
-<ul id="candidate-list"></ul>
-
-<script>
-  const candidates = {{ site.data.all_candidates_national_elections_bangladesh | jsonify }};
-  const list = document.getElementById("candidate-list");
-  const searchInput = document.getElementById("search");
-
-  function renderList(filtered) {
-    list.innerHTML = filtered.length
-      ? filtered.map(c => `<li data-name="${c.Name.toLowerCase()}">
-            <a href="/candidate/${c.ID}/">${c.Name} (${c.Seat})</a>
-         </li>`).join("")
-      : "<li>No candidates found</li>";
-  }
-
-  renderList([]);
-
-  // 🔍 Text Search
-  searchInput.addEventListener('input', () => {
-    const q = searchInput.value.toLowerCase();
-    const filtered = candidates.filter(c => c.Name.toLowerCase().includes(q));
-    renderList(filtered);
-  });
 </script>
