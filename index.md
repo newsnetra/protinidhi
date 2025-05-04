@@ -64,20 +64,20 @@ title: Who Is My Neta
   let electionOptions = [];
 
   function updateContent() {
+    if (!currentConstituency || !select.value) return;
+
     const seatName = currentConstituency.replace(/-/g, ' ').toUpperCase();
-contentDiv.innerHTML = `<h2>${seatName}</h2>`;
+    contentDiv.innerHTML = `<h2>${seatName}</h2>`;
 
     const selectedElection = select.value;
-    if (!currentConstituency || !selectedElection) return;
-
     const filtered = candidates.filter(c =>
       c.Constituency.toLowerCase() === currentConstituency &&
       c.election === selectedElection
     );
 
     contentDiv.innerHTML += filtered.length
-  ? `<ul>${filtered.map(c => `<li><a href="/candidate/${c.ID}/">${c.Name}</a> (${c["Political Party"]})</li>`).join("")}</ul>`
-  : "<p>No candidates found.</p>";
+      ? `<ul>${filtered.map(c => `<li><a href="/candidate/${c.ID}/">${c.Name}</a> (${c["Political Party"]})</li>`).join("")}</ul>`
+      : "<p>No candidates found.</p>";
   }
 
   fetch('GRED_20190215_Bangladesh/bd_constituencies_shapefile/bangladesh_constituencies.svg')
@@ -119,6 +119,7 @@ contentDiv.innerHTML = `<h2>${seatName}</h2>`;
             .map(e => e[0]);
 
           select.innerHTML = electionOptions.map(e => `<option value="${e}">${e}</option>`).join("");
+          select.value = electionOptions[0]; // ✅ critical fix
           select.style.display = 'inline-block';
           label.style.display = 'inline-block';
 
@@ -132,29 +133,31 @@ contentDiv.innerHTML = `<h2>${seatName}</h2>`;
       const allConstituencies = [...new Set(candidates.map(c => c.Constituency.toLowerCase()))];
       const randomConstituency = allConstituencies[Math.floor(Math.random() * allConstituencies.length)];
       const randomPath = document.querySelector(`#map-container path[id="${randomConstituency}"]`);
+
       if (randomPath) {
-  const seatId = randomPath.id;
-  currentConstituency = seatId.toLowerCase();
+        const seatId = randomPath.id;
+        currentConstituency = seatId.toLowerCase();
 
-  const related = candidates.filter(c =>
-    c.Constituency.toLowerCase() === currentConstituency
-  );
+        const related = candidates.filter(c =>
+          c.Constituency.toLowerCase() === currentConstituency
+        );
 
-  const elections = {};
-  related.forEach(c => {
-    elections[c.election] = parseInt(c.Order) || 0;
-  });
+        const elections = {};
+        related.forEach(c => {
+          elections[c.election] = parseInt(c.Order) || 0;
+        });
 
-  electionOptions = Object.entries(elections)
-    .sort((a, b) => b[1] - a[1])
-    .map(e => e[0]);
+        electionOptions = Object.entries(elections)
+          .sort((a, b) => b[1] - a[1])
+          .map(e => e[0]);
 
-  select.innerHTML = electionOptions.map(e => `<option value="${e}">${e}</option>`).join("");
-  select.style.display = 'inline-block';
-  label.style.display = 'inline-block';
+        select.innerHTML = electionOptions.map(e => `<option value="${e}">${e}</option>`).join("");
+        select.value = electionOptions[0]; // ✅ required to trigger content
+        select.style.display = 'inline-block';
+        label.style.display = 'inline-block';
 
-  updateContent();
-}
-
+        updateContent();
+      }
     });
 </script>
+
