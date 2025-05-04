@@ -227,48 +227,43 @@ a.learn-more-button:hover {
 
     const winners = filtered.find(c => {
       const val = (c.Winners ?? '').toString().trim().toLowerCase();
-      console.log("Checking:", val, c.Name);
       return val === 'yes';
     });
 
-    console.log("Winners values:", filtered.map(c => c.Winners));
-
     if (winners) {
-     contentDiv.innerHTML += `
-  <div class="winner-block">
-    <p class="winner-party party-${winners["Political Party"].toLowerCase().replace(/\s+/g, '-')}">
-  <strong></strong> ${winners["Political Party"]}
-</p>
+      contentDiv.innerHTML += `
+        <div class="winner-block">
+          <p class="winner-party party-${winners["Political Party"].toLowerCase().replace(/\s+/g, '-')}">
+            ${winners["Political Party"]}
+          </p>
+          <h3 class="winner-name">${winners.Name}</h3>
+          <p class="winner-father"><strong>Father:</strong> ${winners["Father Name"]}</p>
+          <p class="winner-mother"><strong>Mother:</strong> ${winners["Mother Name"]}</p>
+          <p class="winner-profession"><strong>Profession:</strong> ${winners["Profession"]}</p>
+          <p class="winner-address"><strong>Address:</strong> ${winners["Address"]}</p>
+          <p>
+            <a href="/candidate/${winners.ID}/" target="_blank" class="learn-more-button">
+              Learn More &#x2197;
+            </a>
+          </p>
+        </div>
+      `;
+    }
 
-    <h3 class="winner-name">${winners.Name}</h3>
-    <p class="winner-father"><strong>Father:</strong> ${winners["Father Name"]}</p>
-    <p class="winner-mother"><strong>Mother:</strong> ${winners["Mother Name"]}</p>
-    <p class="winner-profession"><strong>Profession:</strong> ${winners["Profession"]}</p>
-    <p class="winner-address"><strong>Address:</strong> ${winners["Address"]}</p>
-    <p>
-      <a href="/candidate/${winners.ID}/" target="_blank" class="learn-more-button">
-        Learn More &#x29C9;
-      </a>
-    </p>
-  </div>
-`;
-
-     }
-
-const nonWinners = filtered.filter(c => c.ID !== (winners ? winners.ID : null));
-othersDiv.innerHTML = nonWinners.length
-  ? `<h3>Other Candidates</h3><ul class="nonwinner-grid">${nonWinners.map(c => {
-      const gender = (c.Gender || '').toLowerCase().startsWith('m') ? 'M' : (c.Gender || '').toLowerCase().startsWith('f') ? 'F' : '';
-      const age = c.Age && !isNaN(c.Age) ? `${c.Age}` : '';
-      return `
-        <li class="nonwinner-card">
-          <div class="nonwinner-name">${c.Name}${gender || age ? ` (${[gender, age].filter(Boolean).join(', ')})` : ''}</div>
-          <div class="nonwinner-party">${c["Political Party"]}</div>
-          <a href="/candidate/${c.ID}/" target="_blank" class="learn-more-button">Learn More &#x2197;</a>
-        </li>`;
-    }).join("")}</ul>`
-  : "";
-
+    const nonWinners = filtered.filter(c => c.ID !== (winners ? winners.ID : null));
+    othersDiv.innerHTML = nonWinners.length
+      ? `<h3>Other Candidates</h3><ul class="nonwinner-grid">${nonWinners.map(c => {
+          const gender = (c.Gender || '').toLowerCase().startsWith('m') ? 'M' : (c.Gender || '').toLowerCase().startsWith('f') ? 'F' : '';
+          const age = c.Age && !isNaN(c.Age) ? `${c.Age}` : '';
+          return `
+            <li class="nonwinner-card">
+              <div class="nonwinner-name">${c.Name}${gender || age ? ` (${[gender, age].filter(Boolean).join(', ')})` : ''}</div>
+              <div class="nonwinner-party">${c["Political Party"]}</div>
+              <a href="/candidate/${c.ID}/" target="_blank" class="learn-more-button">Learn More &#x2197;</a>
+            </li>`;
+        }).join("")}</ul>`
+      : "";
+  } // <-- this was missing!
 
   fetch('GRED_20190215_Bangladesh/bd_constituencies_shapefile/bangladesh_constituencies.svg')
     .then(res => res.text())
