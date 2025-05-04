@@ -38,6 +38,20 @@ title: Who Is My Neta
   fill: #87ceeb !important;
 }
 
+.winner-party {
+  background-color: rgb(255, 153, 51);
+    color: rgb(255, 255, 255);
+    font-weight: 700;
+    font-size: .875rem;
+    line-height: 1.25rem;
+    font-family: ui-monospace;
+        padding-left: .2rem;
+    padding-right: .2rem;
+    border-radius: .375rem;
+    display: inline-flex;
+    margin-bottom: .2rem;
+}
+
 </style>
 
 <div id="layout">
@@ -92,19 +106,23 @@ title: Who Is My Neta
     console.log("Winners values:", filtered.map(c => c.Winners));
 
     if (winners) {
-      contentDiv.innerHTML += `
-  <p>${winners["Political Party"]}</p>
-  <h3>Winner: ${winners.Name}</h3>
-  <p><strong>Father:</strong> ${winners["Father Name"]}</p>
-  <p><strong>Mother:</strong> ${winners["Mother Name"]}</p>
-  <p><strong>Profession:</strong> ${winners["Profession"]}</p>
-  <p><strong>Address:</strong> ${winners["Address"]}</p>
-  <p>
-    <a href="/candidate/${winners.ID}/" target="_blank" style="display:inline-block;margin-top:8px;padding:6px 12px;background:#007BFF;color:white;border-radius:4px;text-decoration:none;">
-      Learn More &#x2197;
-    </a>
-  </p>
-`;}
+     contentDiv.innerHTML += `
+  <div class="winner-block">
+    <p class="winner-party"><strong>Party:</strong> ${winners["Political Party"]}</p>
+    <h3 class="winner-name">Winner: ${winners.Name}</h3>
+    <p class="winner-father"><strong>Father:</strong> ${winners["Father Name"]}</p>
+    <p class="winner-mother"><strong>Mother:</strong> ${winners["Mother Name"]}</p>
+    <p class="winner-profession"><strong>Profession:</strong> ${winners["Profession"]}</p>
+    <p class="winner-address"><strong>Address:</strong> ${winners["Address"]}</p>
+    <p>
+      <a href="/candidate/${winners.ID}/" target="_blank" class="learn-more-button">
+        Learn More &#x2197;
+      </a>
+    </p>
+  </div>
+`;
+
+     }
 
     const nonWinners = filtered.filter(c => c.ID !== (winners ? winners.ID : null));
     othersDiv.innerHTML = nonWinners.length
