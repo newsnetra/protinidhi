@@ -1,1 +1,32 @@
-<h1>Who Is My Neta</h1><input type='text' placeholder='Search candidates...'>
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>{{ site.title }}</title>
+</head>
+<body>
+  <h1>{{ site.title }}</h1>
+  <input type="text" id="search" placeholder="Search candidates...">
+
+  <ul id="candidate-list">
+    {% assign candidates = site.candidates | sort: "name" %}
+    {% for candidate in candidates %}
+      <li data-name="{{ candidate.name | downcase }}">
+        <a href="{{ candidate.url }}">{{ candidate.name }} ({{ candidate.constituency }})</a>
+      </li>
+    {% endfor %}
+  </ul>
+
+  <script>
+    const searchInput = document.getElementById('search');
+    const listItems = document.querySelectorAll('#candidate-list li');
+
+    searchInput.addEventListener('input', () => {
+      const query = searchInput.value.toLowerCase();
+      listItems.forEach(item => {
+        item.style.display = item.dataset.name.includes(query) ? '' : 'none';
+      });
+    });
+  </script>
+</body>
+</html>
