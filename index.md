@@ -1,6 +1,6 @@
 ---
 layout: home
-title: Who Is My Neta
+title: Protinidhi
 ---
 
 <style>
@@ -86,9 +86,9 @@ background-color: #F2F1EE;
 .party-kalyan-party { background: #884400; color: #fff; }
 
 .winner-name {
-font-weight: 700;
-    font-size: 2.25rem;
-    line-height: 2.5rem;
+font-weight: 500;
+    font-size: 2rem;
+    line-height: 1.5rem;
     text-wrap: pretty;
     width: -moz-fit-content;
     width: fit-content;
@@ -161,6 +161,31 @@ font-weight: 700;
     font-size: .875rem;
     line-height: 1.25rem;
     padding: .5rem 1rem;
+}
+
+#election-select {
+  appearance: none; /* Removes native styling */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-color: #F0EFEB;
+  border: 1px solid #6C6B66;
+  padding: 0.5em 2.5em 0.5em 1em;
+  font-size: 1rem;
+  font-family: inherit;
+  color: #333;
+  border-radius: 6px;
+  background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="8" viewBox="0 0 12 8"><path fill="%236C6B66" d="M6 8L0 0h12z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 1em center;
+  background-size: 0.65em auto;
+  cursor: pointer;
+  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+#election-select:focus {
+  outline: none;
+  border-color: #BC8585;
+  box-shadow: 0 0 0 2px rgba(188, 133, 133, 0.3);
 }
 
 @media (max-width: 541px) {
