@@ -25,7 +25,14 @@ title: Who Is My Neta
     padding: 1rem;
     box-sizing: border-box;
   }
+
+  #map-container svg {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
 </style>
+
 
 <div id="layout">
   <div id="map-container"></div>
