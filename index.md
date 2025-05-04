@@ -93,14 +93,18 @@ title: Who Is My Neta
 
     if (winners) {
       contentDiv.innerHTML += `
-        <h3>Winner: ${winners.Name}</h3>
-        <p><strong>Party:</strong> ${winners["Political Party"]}</p>
-        <p><strong>Father:</strong> ${winners["Father Name"]}</p>
-        <p><strong>Mother:</strong> ${winners["Mother Name"]}</p>
-        <p><strong>Profession:</strong> ${winners["Profession"]}</p>
-        <p><strong>Address:</strong> ${winners["Address"]}</p>
-      `;
-    }
+  <h3>Winner: ${winners.Name}</h3>
+  <p><strong>Party:</strong> ${winners["Political Party"]}</p>
+  <p><strong>Father:</strong> ${winners["Father Name"]}</p>
+  <p><strong>Mother:</strong> ${winners["Mother Name"]}</p>
+  <p><strong>Profession:</strong> ${winners["Profession"]}</p>
+  <p><strong>Address:</strong> ${winners["Address"]}</p>
+  <p>
+    <a href="/candidate/${winners.ID}/" target="_blank" style="display:inline-block;margin-top:8px;padding:6px 12px;background:#007BFF;color:white;border-radius:4px;text-decoration:none;">
+      Learn More &#x2197;
+    </a>
+  </p>
+`;}
 
     const nonWinners = filtered.filter(c => c.ID !== (winners ? winners.ID : null));
     othersDiv.innerHTML = nonWinners.length
