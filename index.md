@@ -129,6 +129,29 @@ title: Who Is My Neta
       const allConstituencies = [...new Set(candidates.map(c => c.Constituency.toLowerCase()))];
       const randomConstituency = allConstituencies[Math.floor(Math.random() * allConstituencies.length)];
       const randomPath = document.querySelector(`#map-container path[id="${randomConstituency}"]`);
-      if (randomPath) randomPath.dispatchEvent(new Event('click'));
+      if (randomPath) {
+  const seatId = randomPath.id;
+  currentConstituency = seatId.toLowerCase();
+
+  const related = candidates.filter(c =>
+    c.Constituency.toLowerCase() === currentConstituency
+  );
+
+  const elections = {};
+  related.forEach(c => {
+    elections[c.election] = parseInt(c.Order) || 0;
+  });
+
+  electionOptions = Object.entries(elections)
+    .sort((a, b) => b[1] - a[1])
+    .map(e => e[0]);
+
+  select.innerHTML = electionOptions.map(e => `<option value="${e}">${e}</option>`).join("");
+  select.style.display = 'inline-block';
+  label.style.display = 'inline-block';
+
+  updateContent();
+}
+
     });
 </script>
