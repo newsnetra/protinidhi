@@ -6,7 +6,7 @@ title: Who Is My Neta
 <div id="map-container"></div>
 
 <script>
-  fetch('/assets/svg/bangladesh_constituencies.svg')
+  fetch('GRED_20190215_Bangladesh/bd_constituencies_shapefile/bangladesh_constituencies.svg')
     .then(res => res.text())
     .then(svg => {
       document.getElementById("map-container").innerHTML = svg;
