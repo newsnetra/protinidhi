@@ -95,6 +95,20 @@ font-weight: 700;
     font-family: "Playfair Display", serif;
 }
 
+a.learn-more-button {
+    color: #fff;
+    background-color: #6C6B66;
+    letter-spacing: .05em;
+    font-weight: 500;
+    font-size: .875rem;
+    line-height: 1.25rem;
+    padding: .5rem 1rem;
+}
+
+a.learn-more-button:hover {
+    background: #595851;
+}
+
 </style>
 
 <div id="layout">
@@ -162,7 +176,7 @@ font-weight: 700;
     <p class="winner-address"><strong>Address:</strong> ${winners["Address"]}</p>
     <p>
       <a href="/candidate/${winners.ID}/" target="_blank" class="learn-more-button">
-        Learn More &#x2197;
+        Learn More &#x29C9;
       </a>
     </p>
   </div>
