@@ -109,6 +109,32 @@ a.learn-more-button:hover {
     background: #595851;
 }
 
+#other-candidates ul {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 0.75rem;
+  list-style: none;
+  padding: 0;
+  margin: 0.5rem 0;
+}
+
+#other-candidates li {
+  background: #f9f9f9;
+  padding: 0.75rem;
+  border-radius: 6px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+#other-candidates li a {
+  font-weight: 600;
+  color: #333;
+  text-decoration: none;
+}
+
+#other-candidates li a:hover {
+  text-decoration: underline;
+}
+
 </style>
 
 <div id="layout">
