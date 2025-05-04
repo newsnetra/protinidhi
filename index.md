@@ -28,6 +28,11 @@ title: Who Is My Neta
     box-sizing: border-box;
   }
 
+  #constituency-detail {
+background-color: #F2F1EE;
+    padding: 1rem 1.5rem;
+  }
+
   #map-container svg {
     width: 100%;
     height: auto;
@@ -150,7 +155,7 @@ font-weight: 700;
   <strong></strong> ${winners["Political Party"]}
 </p>
 
-    <h3 class="winner-name">Incumbent: ${winners.Name}</h3>
+    <h3 class="winner-name">${winners.Name}</h3>
     <p class="winner-father"><strong>Father:</strong> ${winners["Father Name"]}</p>
     <p class="winner-mother"><strong>Mother:</strong> ${winners["Mother Name"]}</p>
     <p class="winner-profession"><strong>Profession:</strong> ${winners["Profession"]}</p>
