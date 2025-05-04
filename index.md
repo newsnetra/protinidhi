@@ -116,7 +116,7 @@ font-weight: 700;
 #other-candidates li a {
  color: gray;
     text-decoration: none;
-    background-color: #F0EFEB;
+    background-color: #F6F1EF;
     font-size: .75rem;
     padding: .25rem .5rem;
 }
@@ -155,7 +155,7 @@ font-weight: 700;
 
 .learn-more-button {
  color: #fff;
-    background-color: #6C6B66;
+    background-color: #BC8585;
     letter-spacing: .05em;
     font-weight: 500;
     font-size: .875rem;
