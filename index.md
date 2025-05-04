@@ -88,6 +88,7 @@ title: Who Is My Neta
 const winner = filtered.find(c => {
   const val = (c.Winner ?? '').toString().trim().toLowerCase();
   return val === 'yes';
+  console.log("Filtered rows:", filtered);
 });
 
 
