@@ -86,7 +86,7 @@ title: Who Is My Neta
     }
 
     // Show winner with details
-    const winner = filtered.find(c => (c.Winner || "").toLowerCase() === "yes");
+    const winner = filtered.find(c => (c.Winner || "").toLowerCase() === "Yes");
     if (winner) {
       contentDiv.innerHTML += `
         <h3>Winner: ${winner.Name}</h3>
