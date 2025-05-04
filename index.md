@@ -93,8 +93,8 @@ title: Who Is My Neta
 
     if (winners) {
       contentDiv.innerHTML += `
+  <p>${winners["Political Party"]}</p>
   <h3>Winner: ${winners.Name}</h3>
-  <p><strong>Party:</strong> ${winners["Political Party"]}</p>
   <p><strong>Father:</strong> ${winners["Father Name"]}</p>
   <p><strong>Mother:</strong> ${winners["Mother Name"]}</p>
   <p><strong>Profession:</strong> ${winners["Profession"]}</p>
