@@ -1,1 +1,21 @@
-<h1>{{ page.name }}</h1><p>{{ page.profile }}</p>
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>{{ page.name }} | {{ site.title }}</title>
+</head>
+<body>
+  <header>
+    <h1>{{ page.name }}</h1>
+    <img src="{{ page.photo }}" alt="{{ page.name }}" style="max-width:200px;">
+    <h2>{{ page.constituency }} | {{ page.party }}</h2>
+  </header>
+
+  <section>
+    <p><strong>Education:</strong> {{ page.education }}</p>
+    <p><strong>Criminal Cases:</strong> {{ page.criminal_cases }}</p>
+    <p><strong>Declared Assets:</strong> {{ page.assets }}</p>
+    <p>{{ page.profile }}</p>
+  </section>
+</body>
+</html>
