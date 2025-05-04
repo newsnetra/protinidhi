@@ -50,6 +50,9 @@ title: Who Is My Neta
     <select id="election-select" style="display: none;"></select>
     <div id="constituency-content"></div>
   </div>
+
+  <div id="other-candidates" style="padding: 1rem;"></div>
+
 </div>
 
 <div id="tooltip"></div>
@@ -60,24 +63,47 @@ title: Who Is My Neta
   const contentDiv = document.getElementById("constituency-content");
   const select = document.getElementById("election-select");
   const label = document.querySelector("label[for='election-select']");
+  const othersDiv = document.getElementById("other-candidates");
   let currentConstituency = null;
   let electionOptions = [];
 
   function updateContent() {
     if (!currentConstituency || !select.value) return;
 
+    const selectedElection = select.value;
     const seatName = currentConstituency.replace(/-/g, ' ').toUpperCase();
     contentDiv.innerHTML = `<h2>${seatName}</h2>`;
 
-    const selectedElection = select.value;
     const filtered = candidates.filter(c =>
       c.Constituency.toLowerCase() === currentConstituency &&
       c.election === selectedElection
     );
 
-    contentDiv.innerHTML += filtered.length
-      ? `<ul>${filtered.map(c => `<li><a href="/candidate/${c.ID}/">${c.Name}</a> (${c["Political Party"]})</li>`).join("")}</ul>`
-      : "<p>No candidates found.</p>";
+    if (filtered.length === 0) {
+      contentDiv.innerHTML += "<p>No candidates found.</p>";
+      othersDiv.innerHTML = "";
+      return;
+    }
+
+    // Show winner with details
+    const winner = filtered.find(c => (c.Winner || "").toLowerCase() === "yes");
+    if (winner) {
+      contentDiv.innerHTML += `
+        <h3>Winner: ${winner.Name}</h3>
+        <p><strong>Party:</strong> ${winner["Political Party"]}</p>
+        <p><strong>Father:</strong> ${winner["Father Name"]}</p>
+        <p><strong>Mother:</strong> ${winner["Mother Name"]}</p>
+        <p><strong>Profession:</strong> ${winner["Profession"]}</p>
+        <p><strong>Address:</strong> ${winner["Address"]}</p>
+      `;
+    }
+
+    // Show rest under map area
+    const nonWinners = filtered.filter(c => c.ID !== (winner ? winner.ID : null));
+    othersDiv.innerHTML = nonWinners.length
+      ? `<h3>Other Candidates</h3><ul>${nonWinners.map(c => `
+            <li><a href="/candidate/${c.ID}/">${c.Name}</a> (${c["Political Party"]})</li>`).join("")}</ul>`
+      : "";
   }
 
   fetch('GRED_20190215_Bangladesh/bd_constituencies_shapefile/bangladesh_constituencies.svg')
@@ -111,15 +137,15 @@ title: Who Is My Neta
 
           const elections = {};
           related.forEach(c => {
-            elections[c.election] = parseInt(c.Order) || 0;
+            elections[c.election] = parseInt(c.Order) || 99;
           });
 
           electionOptions = Object.entries(elections)
-            .sort((a, b) => b[1] - a[1])
+            .sort((a, b) => a[1] - b[1]) // Prefer lowest Order first
             .map(e => e[0]);
 
           select.innerHTML = electionOptions.map(e => `<option value="${e}">${e}</option>`).join("");
-          select.value = electionOptions[0]; // ✅ critical fix
+          select.value = electionOptions[0];
           select.style.display = 'inline-block';
           label.style.display = 'inline-block';
 
@@ -129,7 +155,7 @@ title: Who Is My Neta
 
       select.addEventListener('change', updateContent);
 
-      // ✅ Auto-select a random constituency on load
+      // Auto-select a random constituency on load
       const allConstituencies = [...new Set(candidates.map(c => c.Constituency.toLowerCase()))];
       const randomConstituency = allConstituencies[Math.floor(Math.random() * allConstituencies.length)];
       const randomPath = document.querySelector(`#map-container path[id="${randomConstituency}"]`);
@@ -144,15 +170,15 @@ title: Who Is My Neta
 
         const elections = {};
         related.forEach(c => {
-          elections[c.election] = parseInt(c.Order) || 0;
+          elections[c.election] = parseInt(c.Order) || 99;
         });
 
         electionOptions = Object.entries(elections)
-          .sort((a, b) => b[1] - a[1])
+          .sort((a, b) => a[1] - b[1])
           .map(e => e[0]);
 
         select.innerHTML = electionOptions.map(e => `<option value="${e}">${e}</option>`).join("");
-        select.value = electionOptions[0]; // ✅ required to trigger content
+        select.value = electionOptions[0];
         select.style.display = 'inline-block';
         label.style.display = 'inline-block';
 
@@ -160,4 +186,5 @@ title: Who Is My Neta
       }
     });
 </script>
+
 
