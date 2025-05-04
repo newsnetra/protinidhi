@@ -163,6 +163,23 @@ font-weight: 700;
     padding: .5rem 1rem;
 }
 
+@media (max-width: 541px) {
+  body {
+    max-width: 100vw;
+  }
+  #map-container,
+  #constituency-detail {
+    width: 100%;
+    display: block;
+  }
+
+  #layout {
+    flex-direction: column;
+  }
+}
+
+
+
 
 </style>
 
