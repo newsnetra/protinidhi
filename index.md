@@ -52,6 +52,35 @@ title: Who Is My Neta
     margin-bottom: .2rem;
 }
 
+/* Default style */
+.winner-party {
+  font-weight: 700;
+  font-size: .875rem;
+  line-height: 1.25rem;
+  font-family: ui-monospace;
+  padding: 0.2rem 0.4rem;
+  border-radius: 0.375rem;
+  display: inline-flex;
+  margin-bottom: 0.2rem;
+}
+
+/* Party-specific overrides */
+.party-bnp { background: #004488; color: #fff; }
+.party-awami-league { background: #006600; color: #fff; }
+.party-jamaat { background: #660066; color: #fff; }
+.party-jatiya-party { background: #990000; color: #fff; }
+.party-independent { background: #666; color: #fff; }
+.party-jasad { background: #003366; color: #fff; }
+.party-workers-party { background: #a80000; color: #fff; }
+.party-jp { background: #cc6600; color: #fff; }
+.party-bnf { background: #009999; color: #fff; }
+.party-tarikat-fedaration { background: #006680; color: #fff; }
+.party-ldp { background: #990099; color: #fff; }
+.party-bikalpa-dhara { background: #336699; color: #fff; }
+.party-gono-forum { background: #5555aa; color: #fff; }
+.party-kalyan-party { background: #884400; color: #fff; }
+
+
 </style>
 
 <div id="layout">
@@ -108,7 +137,10 @@ title: Who Is My Neta
     if (winners) {
      contentDiv.innerHTML += `
   <div class="winner-block">
-    <p class="winner-party">${winners["Political Party"]}</p>
+    <p class="winner-party party-${winners["Political Party"].toLowerCase().replace(/\s+/g, '-')}">
+  <strong></strong> ${winners["Political Party"]}
+</p>
+
     <h3 class="winner-name">Winner: ${winners.Name}</h3>
     <p class="winner-father"><strong>Father:</strong> ${winners["Father Name"]}</p>
     <p class="winner-mother"><strong>Mother:</strong> ${winners["Mother Name"]}</p>
