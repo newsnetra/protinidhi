@@ -85,14 +85,14 @@ title: Who Is My Neta
       return;
     }
 
-const winner = filtered.find(c => {
-  const val = (c.Winner ?? '').toString().trim().toLowerCase();
+const Winners = filtered.find(c => {
+  const val = (c.Winners ?? '').toString().trim().toLowerCase();
   return val === 'yes';
   console.log("Filtered rows:", filtered);
 });
 
 
-console.log("Winner values:", filtered.map(c => c.Winner));
+console.log("Winners values:", filtered.map(c => c.Winner));
 
 
     if (winner) {
@@ -107,7 +107,7 @@ console.log("Winner values:", filtered.map(c => c.Winner));
     }
 
     // Show rest under map area
-    const nonWinners = filtered.filter(c => c.ID !== (winner ? winner.ID : null));
+    const nonWinners = filtered.filter(c => c.ID !== (Winners ? winner.ID : null));
     othersDiv.innerHTML = nonWinners.length
       ? `<h3>Other Candidates</h3><ul>${nonWinners.map(c => `
             <li><a href="/candidate/${c.ID}/">${c.Name}</a> (${c["Political Party"]})</li>`).join("")}</ul>`
