@@ -135,6 +135,51 @@ a.learn-more-button:hover {
   text-decoration: underline;
 }
 
+.nonwinner-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+  list-style: none;
+  padding: 0;
+  margin: 0.5rem 0;
+}
+
+.nonwinner-card {
+  background: #f9f9f9;
+  padding: 0.75rem;
+  border-radius: 6px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+.nonwinner-name {
+  font-weight: 700;
+  font-size: 1rem;
+  margin-bottom: 0.2rem;
+}
+
+.nonwinner-party {
+  font-size: 0.9rem;
+  color: #555;
+  margin-bottom: 0.4rem;
+}
+
+.learn-more-button {
+  display: inline-block;
+  margin-top: 0.4rem;
+  padding: 6px 12px;
+  background: #007BFF;
+  color: white;
+  border-radius: 4px;
+  text-decoration: none;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.learn-more-button:hover {
+  background: #0056b3;
+}
+
+
 </style>
 
 <div id="layout">
@@ -210,12 +255,20 @@ a.learn-more-button:hover {
 
      }
 
-    const nonWinners = filtered.filter(c => c.ID !== (winners ? winners.ID : null));
-    othersDiv.innerHTML = nonWinners.length
-      ? `<h3>Other Candidates</h3><ul>${nonWinners.map(c => `
-            <li><a href="/candidate/${c.ID}/">${c.Name}</a> (${c["Political Party"]})</li>`).join("")}</ul>`
-      : "";
-  }
+const nonWinners = filtered.filter(c => c.ID !== (winners ? winners.ID : null));
+othersDiv.innerHTML = nonWinners.length
+  ? `<h3>Other Candidates</h3><ul class="nonwinner-grid">${nonWinners.map(c => {
+      const gender = (c.Gender || '').toLowerCase().startsWith('m') ? 'M' : (c.Gender || '').toLowerCase().startsWith('f') ? 'F' : '';
+      const age = c.Age && !isNaN(c.Age) ? `${c.Age}` : '';
+      return `
+        <li class="nonwinner-card">
+          <div class="nonwinner-name">${c.Name}${gender || age ? ` (${[gender, age].filter(Boolean).join(', ')})` : ''}</div>
+          <div class="nonwinner-party">${c["Political Party"]}</div>
+          <a href="/candidate/${c.ID}/" target="_blank" class="learn-more-button">Learn More &#x2197;</a>
+        </li>`;
+    }).join("")}</ul>`
+  : "";
+
 
   fetch('GRED_20190215_Bangladesh/bd_constituencies_shapefile/bangladesh_constituencies.svg')
     .then(res => res.text())
