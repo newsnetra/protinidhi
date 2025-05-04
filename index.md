@@ -111,7 +111,7 @@ a.learn-more-button:hover {
 
 #other-candidates ul {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 0.75rem;
   list-style: none;
   padding: 0;
