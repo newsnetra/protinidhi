@@ -189,9 +189,7 @@ font-weight: 500;
 }
 
 @media (max-width: 541px) {
-  body {
-    max-width: 100vw;
-  }
+ 
   #map-container,
   #constituency-detail {
     width: 100%;
