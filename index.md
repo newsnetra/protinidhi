@@ -21,11 +21,15 @@ title: Protinidhi
     display: flex;
     flex-wrap: wrap;
   }
+#map-container {
+  min-height: 400px; /* ensures the container isn't empty */
+}
 
   #map-container, #constituency-detail {
     width: 50%;
     padding: 1rem;
     box-sizing: border-box;
+    min-height: 400px;
   }
 
   #constituency-detail {
