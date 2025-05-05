@@ -256,39 +256,46 @@ font-weight: 500;
     let currentConstituency = null;
     let electionOptions = [];
 
-    function updateContent() {
-      console.log("🔁 updateContent called");
+function updateContent() {
+  console.log("🔁 updateContent called");
 
-      if (!currentConstituency || !select.value) {
-        console.warn("⛔ No constituency or election selected.");
-        return;
-      }
+  if (!currentConstituency || !select.value) {
+    console.log("⛔ No constituency or election selected.");
+    return;
+  }
 
-      const selectedElection = select.value;
-      console.log("🗳 Selected election:", selectedElection);
-      const seatName = currentConstituency.replace(/-/g, ' ').toUpperCase();
-      contentDiv.innerHTML = `<h2>${seatName}</h2>`;
+  console.log("🗳 Selected election:", select.value);
 
-      const filtered = candidates.filter(c =>
-        c.Constituency.toLowerCase() === currentConstituency &&
-        c.election === selectedElection
-      );
-      console.log("🔍 Filtered candidates:", filtered.length);
+  const selectedElection = select.value;
+  const seatName = currentConstituency.replace(/-/g, ' ').toUpperCase();
+  contentDiv.innerHTML = `<h2>${seatName}</h2>`;
 
-      if (filtered.length === 0) {
-        contentDiv.innerHTML += "<p>No candidates found.</p>";
-        othersDiv.innerHTML = "";
-        return;
-      }
+  const filtered = candidates.filter(c =>
+    c.Constituency.toLowerCase() === currentConstituency &&
+    c.election === selectedElection
+  );
+  console.log("🔍 Filtered candidates:", filtered.length, filtered);
 
-      const winners = filtered.find(c => {
-        const val = (c.Winners ?? '').toString().trim().toLowerCase();
-        return val === 'yes';
-      });
-      console.log("🏆 Winner found:", winners ? winners.Name : "None");
+  if (filtered.length === 0) {
+    contentDiv.innerHTML += "<p>No candidates found.</p>";
+    othersDiv.innerHTML = "";
+    return;
+  }
 
-      // [Winner and nonWinner rendering code remains unchanged]
-    }
+  const winners = filtered.find(c => {
+    const val = (c.Winners ?? '').toString().trim().toLowerCase();
+    return val === 'yes';
+  });
+
+  if (winners) {
+    console.log("🏆 Winner found:", winners.Name);
+  } else {
+    console.log("❌ No winner found");
+  }
+
+  console.log("🧱 About to render constituency-content...");
+}
+
 
     fetch('GRED_20190215_Bangladesh/bd_constituencies_shapefile/bangladesh_constituencies.svg')
       .then(res => {
