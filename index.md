@@ -311,8 +311,39 @@ if (winners) {
   }
 }
 
+try {
+  const nonWinners = filtered.filter(c => c.ID !== (winners ? winners.ID : null));
+  console.log("👥 Non-winners to display:", nonWinners.length, nonWinners);
 
-  console.log("🧱 About to render constituency-content...");
+  othersDiv.innerHTML = nonWinners.length
+    ? `<h3>Other Candidates</h3><ul class="nonwinner-grid">${nonWinners.map(c => {
+        const gender = (c.Gender || '').toLowerCase().startsWith('m') ? 'M' : (c.Gender || '').toLowerCase().startsWith('f') ? 'F' : '';
+        const age = c.Age && !isNaN(c.Age) ? `${c.Age}` : '';
+        const party = c["Political Party"] || "Independent";
+
+        const knownParties = [
+          "Awami League", "Workers Party", "Jatiya Party", "BNP", "Jasad", "Tarikat Fedaration", "LDP",
+          "Jamaat", "Kalyan Party", "BNF", "JP", "Bikalpa Dhara", "Gono Forum"
+        ];
+        const partyKey = knownParties.includes(party) ? party.toLowerCase().replace(/\s+/g, '-') : 'independent';
+        const partyImgSrc = `/assets/party-symbols/${partyKey}.png`;
+
+        return `
+          <li class="nonwinner-card">
+            <div class="nonwinner-card-inner">
+              <img src="${partyImgSrc}" alt="${party}" class="party-icon">
+              <div class="nonwinner-info">
+                <div class="nonwinner-name">${c.Name}${gender || age ? ` (${[gender, age].filter(Boolean).join(', ')})` : ''}</div>
+                <div class="nonwinner-party">${party}</div>
+                <a href="/candidate/${c.ID}/" target="_blank" class="learn-more-button">Learn More &#x2197;</a>
+              </div>
+            </div>
+          </li>`;
+      }).join("")}</ul>`
+    : "";
+} catch (e) {
+  console.error("❌ Error rendering other candidates:", e);
+}
 }
 
 
