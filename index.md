@@ -236,7 +236,7 @@ font-weight: 500;
 
   <div id="constituency-detail">
     <!-- <h2>Click a constituency</h2> -->
-    <!-- <label for="election-select" style="display: none;">Select election:</label> -->
+    <label for="election-select" style="display: none;"></label>
     <select id="election-select" style="display: none;"></select>
     <div id="constituency-content"></div>
   </div>
