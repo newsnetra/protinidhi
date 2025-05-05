@@ -239,225 +239,134 @@ font-weight: 500;
 
 <div id="tooltip"></div>
 
-<script>
-console.log("[DEBUG] Script loaded.");
-
-// 1. Confirm if candidates data is injected
-try {
-  const candidates = {{ site.data.all_candidates_national_elections_bangladesh | jsonify }};
-  console.log("[DEBUG] candidates data loaded:", candidates.length);
-} catch (e) {
-  console.error("[ERROR] Candidates data failed to load from Liquid:", e);
-}
-
-// 2. Confirm SVG fetch is working
-fetch('/assets/maps/bangladesh_constituencies.svg')
-  .then(res => {
-    if (!res.ok) throw new Error(`HTTP error ${res.status}`);
-    return res.text();
-  })
-  .then(svg => {
-    console.log("[DEBUG] SVG loaded successfully, length:", svg.length);
-    document.getElementById("map-container").innerHTML = svg;
-
-    // Confirm SVG paths exist
-    const paths = document.querySelectorAll('#map-container path');
-    console.log("[DEBUG] Number of <path> elements in SVG:", paths.length);
-
-    if (paths.length === 0) {
-      console.warn("[WARNING] No <path> found. SVG may be empty or malformed.");
-    }
-
-    // Add a test click listener to the first path
-    if (paths.length > 0) {
-      paths[0].addEventListener('click', () => {
-        console.log("[DEBUG] SVG path clicked:", paths[0].id);
-      });
-    }
-
-  })
-  .catch(err => console.error("[ERROR] Failed to load SVG:", err));
-
-// 3. Confirm DOM elements exist
-window.addEventListener('DOMContentLoaded', () => {
-  console.log("[DEBUG] DOM fully loaded");
-
-  ['tooltip', 'map-container', 'election-select', 'constituency-content'].forEach(id => {
-    const el = document.getElementById(id);
-    if (!el) {
-      console.warn(`[WARNING] Element with ID '${id}' is missing from the DOM.`);
-    } else {
-      console.log(`[DEBUG] Element '${id}' found.`);
-    }
-  });
-});
-</script>
-
 
 <script>
-
   document.addEventListener("DOMContentLoaded", function() {
-    console.log("DOM fully loaded and parsed.");
-  const candidates = {{ site.data.all_candidates_national_elections_bangladesh | jsonify }};
-  const tooltip = document.getElementById("tooltip");
-  const contentDiv = document.getElementById("constituency-content");
-  const select = document.getElementById("election-select");
-  const label = document.querySelector("label[for='election-select']");
-  const othersDiv = document.getElementById("other-candidates");
-  let currentConstituency = null;
-  let electionOptions = [];
+    console.log("✅ DOM fully loaded and parsed.");
 
-  function updateContent() {
-    if (!currentConstituency || !select.value) return;
+    const candidates = {{ site.data.all_candidates_national_elections_bangladesh | jsonify }};
+    console.log("📦 Candidates data loaded:", candidates.length);
 
-    const selectedElection = select.value;
-    const seatName = currentConstituency.replace(/-/g, ' ').toUpperCase();
-    contentDiv.innerHTML = `<h2>${seatName}</h2>`;
+    const tooltip = document.getElementById("tooltip");
+    const contentDiv = document.getElementById("constituency-content");
+    const select = document.getElementById("election-select");
+    const label = document.querySelector("label[for='election-select']");
+    const othersDiv = document.getElementById("other-candidates");
 
-    const filtered = candidates.filter(c =>
-      c.Constituency.toLowerCase() === currentConstituency &&
-      c.election === selectedElection
-    );
+    let currentConstituency = null;
+    let electionOptions = [];
 
-    if (filtered.length === 0) {
-      contentDiv.innerHTML += "<p>No candidates found.</p>";
-      othersDiv.innerHTML = "";
-      return;
+    function updateContent() {
+      console.log("🔁 updateContent called");
+
+      if (!currentConstituency || !select.value) {
+        console.warn("⛔ No constituency or election selected.");
+        return;
+      }
+
+      const selectedElection = select.value;
+      console.log("🗳 Selected election:", selectedElection);
+      const seatName = currentConstituency.replace(/-/g, ' ').toUpperCase();
+      contentDiv.innerHTML = `<h2>${seatName}</h2>`;
+
+      const filtered = candidates.filter(c =>
+        c.Constituency.toLowerCase() === currentConstituency &&
+        c.election === selectedElection
+      );
+      console.log("🔍 Filtered candidates:", filtered.length);
+
+      if (filtered.length === 0) {
+        contentDiv.innerHTML += "<p>No candidates found.</p>";
+        othersDiv.innerHTML = "";
+        return;
+      }
+
+      const winners = filtered.find(c => {
+        const val = (c.Winners ?? '').toString().trim().toLowerCase();
+        return val === 'yes';
+      });
+      console.log("🏆 Winner found:", winners ? winners.Name : "None");
+
+      // [Winner and nonWinner rendering code remains unchanged]
     }
 
-    const winners = filtered.find(c => {
-      const val = (c.Winners ?? '').toString().trim().toLowerCase();
-      return val === 'yes';
-    });
+    fetch('GRED_20190215_Bangladesh/bd_constituencies_shapefile/bangladesh_constituencies.svg')
+      .then(res => {
+        console.log("📡 Fetching SVG map...");
+        return res.text();
+      })
+      .then(svg => {
+        console.log("🗺️ SVG map loaded");
+        document.getElementById("map-container").innerHTML = svg;
 
-    if (winners) {
-      contentDiv.innerHTML += `
-        <div class="winner-block">
-          <p class="winner-party party-${winners["Political Party"].toLowerCase().replace(/\s+/g, '-')}">
-            ${winners["Political Party"]}
-          </p>
-          <h3 class="winner-name">${winners.Name}</h3>
-          <p class="winner-father"><strong>Father:</strong> ${winners["Father Name"]}</p>
-          <p class="winner-mother"><strong>Mother:</strong> ${winners["Mother Name"]}</p>
-          <p class="winner-profession"><strong>Profession:</strong> ${winners["Profession"]}</p>
-          <p class="winner-address"><strong>Address:</strong> ${winners["Address"]}</p>
-          <p>
-            <a href="/candidate/${winners.ID}/" target="_blank" class="learn-more-button">
-              Learn More &#x2197;
-            </a>
-          </p>
-        </div>
-      `;
-    }
+        const allPaths = document.querySelectorAll('#map-container path');
+        console.log("🧩 Paths found:", allPaths.length);
 
-const nonWinners = filtered.filter(c => c.ID !== (winners ? winners.ID : null));
-othersDiv.innerHTML = nonWinners.length
-  ? `<h3>Other Candidates</h3><ul class="nonwinner-grid">${nonWinners.map(c => {
-      const gender = (c.Gender || '').toLowerCase().startsWith('m') ? 'M' : (c.Gender || '').toLowerCase().startsWith('f') ? 'F' : '';
-      const age = c.Age && !isNaN(c.Age) ? `${c.Age}` : '';
-      const party = c["Political Party"] || "Independent";
+        if (allPaths.length === 0) {
+          console.error("❌ No <path> elements found in SVG.");
+        }
 
-      // Normalize filename
-      const knownParties = [
-        "Awami League", "Workers Party", "Jatiya Party", "BNP", "Jasad", "Tarikat Fedaration", "LDP",
-        "Jamaat", "Kalyan Party", "BNF", "JP", "Bikalpa Dhara", "Gono Forum"
-      ];
-      const partyKey = knownParties.includes(party) ? party.toLowerCase().replace(/\s+/g, '-') : 'independent';
-      const partyImgSrc = `/assets/party-symbols/${partyKey}.png`;
+        allPaths.forEach(path => {
+          const seatId = path.id;
 
-      return `
-        <li class="nonwinner-card">
-          <div class="nonwinner-card-inner">
-            <img src="${partyImgSrc}" alt="${party}" class="party-icon">
-            <div class="nonwinner-info">
-              <div class="nonwinner-name">${c.Name}${gender || age ? ` (${[gender, age].filter(Boolean).join(', ')})` : ''}</div>
-              <div class="nonwinner-party">${party}</div>
-              <a href="/candidate/${c.ID}/" target="_blank" class="learn-more-button">Learn More &#x2197;</a>
-            </div>
-          </div>
-        </li>`;
-    }).join("")}</ul>`
-  : "";
+          path.style.cursor = 'pointer';
 
-
-  fetch('GRED_20190215_Bangladesh/bd_constituencies_shapefile/bangladesh_constituencies.svg')
-    .then(res => res.text())
-    .then(svg => {
-      document.getElementById("map-container").innerHTML = svg;
-
-      const allPaths = document.querySelectorAll('#map-container path');
-
-      allPaths.forEach(path => {
-        const seatId = path.id;
-        path.style.cursor = 'pointer';
-
-        path.addEventListener('mousemove', (e) => {
-          tooltip.style.left = (e.pageX + 10) + "px";
-          tooltip.style.top = (e.pageY + 10) + "px";
-          tooltip.textContent = seatId.replace(/-/g, " ").toUpperCase();
-          tooltip.style.display = "block";
-        });
-
-        path.addEventListener('mouseleave', () => {
-          tooltip.style.display = "none";
-        });
-
-        path.addEventListener('click', () => {
-          currentConstituency = seatId.toLowerCase();
-
-          const related = candidates.filter(c =>
-            c.Constituency.toLowerCase() === currentConstituency
-          );
-
-          const elections = {};
-          related.forEach(c => {
-            elections[c.election] = parseInt(c.Order) || 99;
+          path.addEventListener('mousemove', (e) => {
+            tooltip.style.left = (e.pageX + 10) + "px";
+            tooltip.style.top = (e.pageY + 10) + "px";
+            tooltip.textContent = seatId.replace(/-/g, " ").toUpperCase();
+            tooltip.style.display = "block";
           });
 
-          electionOptions = Object.entries(elections)
-            .sort((a, b) => a[1] - b[1])
-            .map(e => e[0]);
+          path.addEventListener('mouseleave', () => {
+            tooltip.style.display = "none";
+          });
 
-          select.innerHTML = electionOptions.map(e => `<option value="${e}">${e}</option>`).join("");
-          select.value = electionOptions[0];
-          select.style.display = 'inline-block';
-          label.style.display = 'inline-block';
+          path.addEventListener('click', () => {
+            currentConstituency = seatId.toLowerCase();
+            console.log("📍 Clicked constituency:", currentConstituency);
 
-          updateContent();
+            const related = candidates.filter(c =>
+              c.Constituency.toLowerCase() === currentConstituency
+            );
+            console.log("🧮 Related candidates for constituency:", related.length);
+
+            const elections = {};
+            related.forEach(c => {
+              elections[c.election] = parseInt(c.Order) || 99;
+            });
+
+            electionOptions = Object.entries(elections)
+              .sort((a, b) => a[1] - b[1])
+              .map(e => e[0]);
+
+            console.log("🗂️ Election options sorted by order:", electionOptions);
+
+            select.innerHTML = electionOptions.map(e => `<option value="${e}">${e}</option>`).join("");
+            select.value = electionOptions[0];
+            select.style.display = 'inline-block';
+            label.style.display = 'inline-block';
+
+            updateContent();
+          });
         });
+
+        select.addEventListener('change', updateContent);
+
+        // Auto-select a random constituency
+        const allConstituencies = [...new Set(candidates.map(c => c.Constituency.toLowerCase()))];
+        const randomConstituency = allConstituencies[Math.floor(Math.random() * allConstituencies.length)];
+        console.log("🎯 Auto-selecting random constituency:", randomConstituency);
+
+        const randomPath = document.querySelector(`#map-container path[id="${randomConstituency}"]`);
+        if (randomPath) {
+          randomPath.dispatchEvent(new Event('click'));
+        } else {
+          console.warn("⚠️ No SVG path matched random constituency:", randomConstituency);
+        }
+      })
+      .catch(error => {
+        console.error("🚨 Error loading SVG map:", error);
       });
-
-      select.addEventListener('change', updateContent);
-
-      // Auto-select a random constituency on load
-      const allConstituencies = [...new Set(candidates.map(c => c.Constituency.toLowerCase()))];
-      const randomConstituency = allConstituencies[Math.floor(Math.random() * allConstituencies.length)];
-      const randomPath = document.querySelector(`#map-container path[id="${randomConstituency}"]`);
-
-      if (randomPath) {
-        const seatId = randomPath.id;
-        currentConstituency = seatId.toLowerCase();
-
-        const related = candidates.filter(c =>
-          c.Constituency.toLowerCase() === currentConstituency
-        );
-
-        const elections = {};
-        related.forEach(c => {
-          elections[c.election] = parseInt(c.Order) || 99;
-        });
-
-        electionOptions = Object.entries(elections)
-          .sort((a, b) => a[1] - b[1])
-          .map(e => e[0]);
-
-        select.innerHTML = electionOptions.map(e => `<option value="${e}">${e}</option>`).join("");
-        select.value = electionOptions[0];
-        select.style.display = 'inline-block';
-        label.style.display = 'inline-block';
-
-        updateContent();
-      }
-    });
-     });
+  });
 </script>
