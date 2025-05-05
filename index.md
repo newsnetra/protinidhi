@@ -5,7 +5,6 @@ title: Protinidhi
 
 <style>
 
-
   #tooltip {
     position: absolute;
     padding: 4px 8px;
@@ -244,6 +243,8 @@ font-weight: 500;
 <div id="tooltip"></div>
 
 <script>
+    document.addEventListener("DOMContentLoaded", function() {
+    console.log("DOM fully loaded and parsed.");
   const candidates = {{ site.data.all_candidates_national_elections_bangladesh | jsonify }};
   const tooltip = document.getElementById("tooltip");
   const contentDiv = document.getElementById("constituency-content");
@@ -405,4 +406,5 @@ othersDiv.innerHTML = nonWinners.length
         updateContent();
       }
     });
+     });
 </script>
