@@ -47,30 +47,16 @@ background-color: #F2F1EE;
 }
 
 .winner-party {
-  background-color: rgb(255, 153, 51);
     color: rgb(255, 255, 255);
     font-weight: 700;
     font-size: .875rem;
     line-height: 1.25rem;
-    font-family: ui-monospace;
-        padding-left: .2rem;
-    padding-right: .2rem;
     border-radius: .375rem;
     display: inline-flex;
     margin-bottom: .2rem;
+    padding: 0.2rem 0.4rem;
 }
 
-/* Default style */
-.winner-party {
-  font-weight: 700;
-  font-size: .875rem;
-  line-height: 1.25rem;
-  font-family: ui-monospace;
-  padding: 0.2rem 0.4rem;
-  border-radius: 0.375rem;
-  display: inline-flex;
-  margin-bottom: 0.2rem;
-}
 
 /* Party-specific overrides */
 .party-bnp { background: #004488; color: #fff;}
@@ -128,8 +114,25 @@ font-weight: 500;
     padding: .25rem .5rem;
 }
 
+/* Style the learn-more button on hover */
 #other-candidates li a:hover {
-  text-decoration: underline;
+  text-decoration: none;
+  background-color: #4A3F3A;  /* darker than #F6F1EF */
+  color: #ffffff;
+}
+
+/* Base style for party icon */
+#other-candidates .party-icon {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  transition: border-radius 0.2s, border 0.2s;
+}
+
+/* Add circular border on li hover */
+#other-candidates li:hover .party-icon {
+  border-radius: 50%;
+  border: 2px solid #ccc;
 }
 
 .nonwinner-grid {
