@@ -70,7 +70,7 @@ background-color: #F2F1EE;
 }
 
 /* Party-specific overrides */
-.party-bnp { background: #004488; color: #fff; }
+.party-bnp { background: #004488; color: #fff;}
 .party-awami-league { background: #006600; color: #fff; }
 .party-jamaat { background: #660066; color: #fff; }
 .party-jatiya-party { background: #990000; color: #fff; }
@@ -276,20 +276,35 @@ font-weight: 500;
       `;
     }
 
-    const nonWinners = filtered.filter(c => c.ID !== (winners ? winners.ID : null));
-    othersDiv.innerHTML = nonWinners.length
-      ? `<h3>Other Candidates</h3><ul class="nonwinner-grid">${nonWinners.map(c => {
-          const gender = (c.Gender || '').toLowerCase().startsWith('m') ? 'M' : (c.Gender || '').toLowerCase().startsWith('f') ? 'F' : '';
-          const age = c.Age && !isNaN(c.Age) ? `${c.Age}` : '';
-          return `
-            <li class="nonwinner-card">
+const nonWinners = filtered.filter(c => c.ID !== (winners ? winners.ID : null));
+othersDiv.innerHTML = nonWinners.length
+  ? `<h3>Other Candidates</h3><ul class="nonwinner-grid">${nonWinners.map(c => {
+      const gender = (c.Gender || '').toLowerCase().startsWith('m') ? 'M' : (c.Gender || '').toLowerCase().startsWith('f') ? 'F' : '';
+      const age = c.Age && !isNaN(c.Age) ? `${c.Age}` : '';
+      const party = c["Political Party"] || "Independent";
+
+      // Normalize filename
+      const knownParties = [
+        "Awami League", "Workers Party", "Jatiya Party", "BNP", "Jasad", "Tarikat Fedaration", "LDP",
+        "Jamaat", "Kalyan Party", "BNF", "JP", "Bikalpa Dhara", "Gono Forum"
+      ];
+      const partyKey = knownParties.includes(party) ? party.toLowerCase().replace(/\s+/g, '-') : 'independent';
+      const partyImgSrc = `/assets/party-symbols/${partyKey}.png`;
+
+      return `
+        <li class="nonwinner-card">
+          <div class="nonwinner-card-inner">
+            <img src="${partyImgSrc}" alt="${party}" class="party-icon">
+            <div class="nonwinner-info">
               <div class="nonwinner-name">${c.Name}${gender || age ? ` (${[gender, age].filter(Boolean).join(', ')})` : ''}</div>
-              <div class="nonwinner-party">${c["Political Party"]}</div>
+              <div class="nonwinner-party">${party}</div>
               <a href="/candidate/${c.ID}/" target="_blank" class="learn-more-button">Learn More &#x2197;</a>
-            </li>`;
-        }).join("")}</ul>`
-      : "";
-  } // <-- this was missing!
+            </div>
+          </div>
+        </li>`;
+    }).join("")}</ul>`
+  : "";
+
 
   fetch('GRED_20190215_Bangladesh/bd_constituencies_shapefile/bangladesh_constituencies.svg')
     .then(res => res.text())
