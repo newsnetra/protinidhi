@@ -354,7 +354,7 @@ try {
 }
 
 
-    fetch('GRED_20190215_Bangladesh/bd_constituencies_shapefile/bangladesh_constituencies.svg')
+    fetch('GRED_20190215_Bangladesh/bd_constituencies_shapefile/bangladesh_constituency_district.svg')
       .then(res => {
         console.log("📡 Fetching SVG map...");
         return res.text();
