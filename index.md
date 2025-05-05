@@ -360,10 +360,32 @@ font-weight: 500;
 
         const randomPath = document.querySelector(`#map-container path[id="${randomConstituency}"]`);
         if (randomPath) {
-          randomPath.dispatchEvent(new Event('click'));
-        } else {
-          console.warn("⚠️ No SVG path matched random constituency:", randomConstituency);
-        }
+  const seatId = randomPath.id;
+  currentConstituency = seatId.toLowerCase();
+
+  const related = candidates.filter(c =>
+    c.Constituency.toLowerCase() === currentConstituency
+  );
+
+  const elections = {};
+  related.forEach(c => {
+    elections[c.election] = parseInt(c.Order) || 99;
+  });
+
+  electionOptions = Object.entries(elections)
+    .sort((a, b) => a[1] - b[1])
+    .map(e => e[0]);
+
+  select.innerHTML = electionOptions.map(e => `<option value="${e}">${e}</option>`).join("");
+  select.value = electionOptions[0];
+  select.style.display = 'inline-block';
+  label.style.display = 'inline-block';
+
+  console.log("🎯 Random constituency selected:", currentConstituency);
+  console.log("🗳 Selected election:", select.value);
+  updateContent(); // <- Call this **only after select.value is set**
+}
+
       })
       .catch(error => {
         console.error("🚨 Error loading SVG map:", error);
