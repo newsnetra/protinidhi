@@ -287,11 +287,30 @@ function updateContent() {
     return val === 'yes';
   });
 
-  if (winners) {
-    console.log("🏆 Winner found:", winners.Name);
-  } else {
-    console.log("❌ No winner found");
+if (winners) {
+  try {
+    contentDiv.innerHTML += `
+      <div class="winner-block">
+        <p class="winner-party party-${(winners["Political Party"] || "independent").toLowerCase().replace(/\s+/g, '-')}">
+          ${winners["Political Party"] || "N/A"}
+        </p>
+        <h3 class="winner-name">${winners.Name || "N/A"}</h3>
+        <p class="winner-father"><strong>Father:</strong> ${winners["Father Name"] || ""}</p>
+        <p class="winner-mother"><strong>Mother:</strong> ${winners["Mother Name"] || ""}</p>
+        <p class="winner-profession"><strong>Profession:</strong> ${winners["Profession"] || ""}</p>
+        <p class="winner-address"><strong>Address:</strong> ${winners["Address"] || ""}</p>
+        <p>
+          <a href="/candidate/${winners.ID}/" target="_blank" class="learn-more-button">
+            Learn More &#x2197;
+          </a>
+        </p>
+      </div>
+    `;
+  } catch (e) {
+    console.error("❌ Error rendering winner block:", e);
   }
+}
+
 
   console.log("🧱 About to render constituency-content...");
 }
