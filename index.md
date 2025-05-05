@@ -222,9 +222,6 @@ font-weight: 500;
   }
 }
 
-
-
-
 </style>
 
 <div id="layout">
@@ -243,7 +240,63 @@ font-weight: 500;
 <div id="tooltip"></div>
 
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
+console.log("[DEBUG] Script loaded.");
+
+// 1. Confirm if candidates data is injected
+try {
+  const candidates = {{ site.data.all_candidates_national_elections_bangladesh | jsonify }};
+  console.log("[DEBUG] candidates data loaded:", candidates.length);
+} catch (e) {
+  console.error("[ERROR] Candidates data failed to load from Liquid:", e);
+}
+
+// 2. Confirm SVG fetch is working
+fetch('/assets/maps/bangladesh_constituencies.svg')
+  .then(res => {
+    if (!res.ok) throw new Error(`HTTP error ${res.status}`);
+    return res.text();
+  })
+  .then(svg => {
+    console.log("[DEBUG] SVG loaded successfully, length:", svg.length);
+    document.getElementById("map-container").innerHTML = svg;
+
+    // Confirm SVG paths exist
+    const paths = document.querySelectorAll('#map-container path');
+    console.log("[DEBUG] Number of <path> elements in SVG:", paths.length);
+
+    if (paths.length === 0) {
+      console.warn("[WARNING] No <path> found. SVG may be empty or malformed.");
+    }
+
+    // Add a test click listener to the first path
+    if (paths.length > 0) {
+      paths[0].addEventListener('click', () => {
+        console.log("[DEBUG] SVG path clicked:", paths[0].id);
+      });
+    }
+
+  })
+  .catch(err => console.error("[ERROR] Failed to load SVG:", err));
+
+// 3. Confirm DOM elements exist
+window.addEventListener('DOMContentLoaded', () => {
+  console.log("[DEBUG] DOM fully loaded");
+
+  ['tooltip', 'map-container', 'election-select', 'constituency-content'].forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) {
+      console.warn(`[WARNING] Element with ID '${id}' is missing from the DOM.`);
+    } else {
+      console.log(`[DEBUG] Element '${id}' found.`);
+    }
+  });
+});
+</script>
+
+
+<script>
+
+  document.addEventListener("DOMContentLoaded", function() {
     console.log("DOM fully loaded and parsed.");
   const candidates = {{ site.data.all_candidates_national_elections_bangladesh | jsonify }};
   const tooltip = document.getElementById("tooltip");
