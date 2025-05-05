@@ -99,6 +99,10 @@ font-weight: 500;
 }
 
 
+#other-candidates {
+    width: 100%;
+    box-sizing: border-box;
+}
 
 #other-candidates ul {
   display: grid;
@@ -130,7 +134,7 @@ font-weight: 500;
 
 .nonwinner-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 0.75rem;
   list-style: none;
   padding: 0;
