@@ -90,21 +90,8 @@ font-weight: 500;
     box-sizing: border-box;
 }
 
-#other-candidates ul {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 0.75rem;
-  list-style: none;
-  padding: 0;
-  margin: 0.5rem 0;
-}
 
-#other-candidates li {
-  background: #f9f9f9;
-  padding: 0.75rem;
-  border-radius: 6px;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-}
+
 
 #other-candidates li a {
  color: gray;
@@ -117,7 +104,7 @@ font-weight: 500;
 /* Style the learn-more button on hover */
 #other-candidates li a:hover {
   text-decoration: none;
-  background-color: #4A3F3A;  /* darker than #F6F1EF */
+  background-color: #BC8585;  /* darker than #F6F1EF */
   color: #ffffff;
 }
 
@@ -157,12 +144,6 @@ font-weight: 500;
   gap: 0.75rem;
 }
 
-.party-icon {
-  width: 40px;
-  height: 40px;
-  object-fit: contain;
-  flex-shrink: 0;
-}
 
 .nonwinner-info {
   flex-grow: 1;
