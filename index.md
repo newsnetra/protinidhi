@@ -133,12 +133,29 @@ font-weight: 500;
   padding: 0;
   margin: 0.5rem 0;
 }
-
 .nonwinner-card {
-  background: #f9f9f9;
   padding: 0.75rem;
+  background: #f9f9f9;
   border-radius: 6px;
   box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+  display: flex;
+  align-items: flex-start;
+}
+
+.nonwinner-card-inner {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.party-icon {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.nonwinner-info {
+  flex-grow: 1;
 }
 
 .nonwinner-name {
@@ -152,6 +169,7 @@ font-weight: 500;
   color: #555;
   margin-bottom: 0.4rem;
 }
+
 
 .learn-more-button {
  color: #fff;
