@@ -25,10 +25,11 @@ title: Protinidhi
 }
 
   #map-container, #constituency-detail {
-    width: 50%;
+    width: 40%;
     padding: 1rem;
     box-sizing: border-box;
     min-height: 400px;
+    margin: auto;
   }
 
   #constituency-detail {
@@ -314,7 +315,7 @@ try {
           "Jamaat", "Kalyan Party", "BNF", "JP", "Bikalpa Dhara", "Gono Forum"
         ];
         const partyKey = knownParties.includes(party) ? party.toLowerCase().replace(/\s+/g, '-') : 'independent';
-        const partyImgSrc = `/assets/party-symbols/${partyKey}.png`;
+        const partyImgSrc = `/assets/party-symbols/${partyKey}.svg`;
 
         return `
           <li class="nonwinner-card">
