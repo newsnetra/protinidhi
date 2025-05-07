@@ -324,7 +324,7 @@ if (voteSummary) {
 
     <div style="display: flex; justify-content: space-between; font-size: 0.85em; margin-top: 0.4em;">
     <span>Winning: ${winning}</span>
-      <span>Valid: ${valid}</span>
+      <span>Valid Turnout: ${valid}</span>
       <span>Total: ${total}</span>
       
     </div>
