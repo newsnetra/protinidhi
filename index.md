@@ -296,10 +296,10 @@ if (voteSummary) {
 
   voteBarHTML = `
   <div style="margin: 1.5em 0;">
-    <!-- Outer Total Votes Bar -->
+    <!-- Total Votes bar (background) -->
     <div style="position: relative; height: 32px; background: #d3d3d3; border: 1px solid #999; width: 100%;">
       
-      <!-- Valid Votes Bar -->
+      <!-- Valid Votes bar -->
       <div style="
         position: absolute;
         height: 20px;
@@ -310,7 +310,7 @@ if (voteSummary) {
         z-index: 2;
       "></div>
 
-      <!-- Winning Votes Bar -->
+      <!-- Winning Votes bar -->
       <div style="
         position: absolute;
         height: 12px;
@@ -321,16 +321,18 @@ if (voteSummary) {
         z-index: 3;
       "></div>
 
-      <!-- Static Labels -->
+      <!-- Static labels -->
       <span style="position: absolute; right: 4px; top: -1.4em; font-size: 0.75em; color: #000;">Winning Votes</span>
       <span style="position: absolute; right: 4px; top: -2.6em; font-size: 0.75em; color: #333;">Valid Votes</span>
       <span style="position: absolute; right: 4px; bottom: -1.4em; font-size: 0.75em; color: #444;">Total Votes</span>
     </div>
 
     <div style="display: flex; justify-content: space-between; font-size: 0.85em; margin-top: 0.4em;">
-      <span>Total: ${total}</span>
-      <span>Valid: ${valid}</span>
+      
       <span>Winning: ${winning}</span>
+      <span>Valid: ${valid}</span>
+      <span>Total: ${total}</span>
+      
     </div>
   </div>
 `;
