@@ -275,10 +275,39 @@ function updateContent() {
     const val = (c.Winners ?? '').toString().trim().toLowerCase();
     return val === 'yes';
   });
-
+  
 if (winners) {
   try {
+    const voteSummary = filtered.find(c =>
+      c["Total Votes"] && !isNaN(c["Total Votes"]) &&
+      c["Valid Votes"] && !isNaN(c["Valid Votes"]) &&
+      c["Winning Vote"] && !isNaN(c["Winning Vote"])
+    );
+
+    let voteBarHTML = '';
+    if (voteSummary) {
+      const total = parseInt(voteSummary["Total Votes"]);
+      const valid = parseInt(voteSummary["Valid Votes"]);
+      const winning = parseInt(voteSummary["Winning Vote"]);
+
+      const validPct = Math.min(100, (valid / total) * 100);
+      const winningPct = Math.min(100, (winning / total) * 100);
+
+      voteBarHTML = `
+        <div class="vote-bar-wrapper" style="margin: 1em 0; background: #eee; height: 20px; width: 100%; position: relative; border-radius: 4px; overflow: hidden;">
+          <div style="background: #4caf50; width: ${validPct}%; height: 100%; position: absolute; top: 0; left: 0;"></div>
+          <div style="background: #2196f3; width: ${winningPct}%; height: 100%; position: absolute; top: 0; left: 0;"></div>
+        </div>
+        <div style="display: flex; justify-content: space-between; font-size: 0.9em;">
+          <span>Total: ${total}</span>
+          <span>Valid: ${valid}</span>
+          <span>Winning: ${winning}</span>
+        </div>
+      `;
+    }
+
     contentDiv.innerHTML += `
+      ${voteBarHTML}
       <div class="winner-block">
         <p class="winner-party party-${(winners["Political Party"] || "independent").toLowerCase().replace(/\s+/g, '-')}">
           ${winners["Political Party"] || "N/A"}
@@ -300,32 +329,6 @@ if (winners) {
   }
 }
 
-const voteSummary = filtered.find(c =>
-  c["Total Votes"] && !isNaN(c["Total Votes"]) &&
-  c["Valid Votes"] && !isNaN(c["Valid Votes"]) &&
-  c["Winning Vote"] && !isNaN(c["Winning Vote"])
-);
-
-if (voteSummary) {
-  const total = parseInt(voteSummary["Total Votes"]);
-  const valid = parseInt(voteSummary["Valid Votes"]);
-  const winning = parseInt(voteSummary["Winning Vote"]);
-
-  const validPct = Math.min(100, (valid / total) * 100);
-  const winningPct = Math.min(100, (winning / total) * 100);
-
-  contentDiv.innerHTML += `
-    <div class="vote-bar-wrapper" style="margin: 1em 0; background: #eee; height: 20px; width: 100%; position: relative; border-radius: 4px; overflow: hidden;">
-      <div style="background: #4caf50; width: ${validPct}%; height: 100%; position: absolute; top: 0; left: 0;"></div>
-      <div style="background: #2196f3; width: ${winningPct}%; height: 100%; position: absolute; top: 0; left: 0;"></div>
-    </div>
-    <div style="display: flex; justify-content: space-between; font-size: 0.9em;">
-      <span>Total Votes: ${total}</span>
-      <span>Valid Votes: ${valid}</span>
-      <span>Winning Vote: ${winning}</span>
-    </div>
-  `;
-}
 
 
 try {
