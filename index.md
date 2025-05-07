@@ -275,7 +275,7 @@ function updateContent() {
     const val = (c.Winners ?? '').toString().trim().toLowerCase();
     return val === 'yes';
   });
-  
+
 if (winners) {
   try {
     const voteSummary = filtered.find(c =>
@@ -294,16 +294,19 @@ if (winners) {
       const winningPct = Math.min(100, (winning / total) * 100);
 
       voteBarHTML = `
-        <div class="vote-bar-wrapper" style="margin: 1em 0; background: #eee; height: 20px; width: 100%; position: relative; border-radius: 4px; overflow: hidden;">
-          <div style="background: #4caf50; width: ${validPct}%; height: 100%; position: absolute; top: 0; left: 0;"></div>
-          <div style="background: #2196f3; width: ${winningPct}%; height: 100%; position: absolute; top: 0; left: 0;"></div>
-        </div>
-        <div style="display: flex; justify-content: space-between; font-size: 0.9em;">
-          <span>Total: ${total}</span>
-          <span>Valid: ${valid}</span>
-          <span>Winning: ${winning}</span>
-        </div>
-      `;
+  <div class="vote-bar-wrapper" style="margin: 1em 0;">
+    <div style="background: #eee; height: 20px; width: 100%; border-radius: 4px; overflow: hidden; position: relative;">
+      <div style="background: #4caf50; width: ${validPct}%; height: 100%;"></div>
+      <div style="background: #2196f3; width: ${winningPct}%; height: 100%; position: absolute; top: 0; left: 0;"></div>
+    </div>
+    <div style="display: flex; justify-content: space-between; font-size: 0.9em; margin-top: 0.3em;">
+      <span>Total Votes: ${total}</span>
+      <span>Valid Votes: ${valid}</span>
+      <span>Winning Vote: ${winning}</span>
+    </div>
+  </div>
+`;
+
     }
 
     contentDiv.innerHTML += `
