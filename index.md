@@ -295,31 +295,32 @@ if (voteSummary) {
   const winningPct = Math.min(validPct, (winning / total) * 100);
 
   voteBarHTML = `
-  <div style="margin: 1.2em 0;">
-    <div style="position: relative; height: 20px; background: #ddd; border-radius: 4px; width: 100%;">
-      <!-- Valid Votes bar (slightly narrower and centered) -->
+  <div style="margin: 1.5em 0;">
+    <div style="position: relative; height: 28px; background: #ccc; border-radius: 4px; width: 100%;" title="Total Votes: ${total}">
+      
+      <!-- Valid Votes (green, narrower height) -->
       <div style="
         position: absolute;
-        height: 12px;
-        top: 4px;
+        height: 18px;
+        top: 5px;
         left: 0;
         background: #4caf50;
         width: ${validPct}%;
         border-radius: 4px;
         z-index: 2;
-        margin: 0 auto;
-      "></div>
+      " title="Valid Votes: ${valid}"></div>
 
-      <!-- Winning Vote marker -->
+      <!-- Winning Votes (orange, inside valid) -->
       <div style="
         position: absolute;
-        height: 100%;
-        width: 2px;
-        left: ${winningPct}%;
-        top: 0;
-        background: #0d47a1;
+        height: 18px;
+        top: 5px;
+        left: 0;
+        background: #ff9800;
+        width: ${winningPct}%;
+        border-radius: 4px;
         z-index: 3;
-      " title="Winning Votes"></div>
+      " title="Winning Votes: ${winning}"></div>
     </div>
 
     <div style="display: flex; justify-content: space-between; font-size: 0.85em; margin-top: 0.4em;">
@@ -329,6 +330,7 @@ if (voteSummary) {
     </div>
   </div>
 `;
+
 
 }
 
