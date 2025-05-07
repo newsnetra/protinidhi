@@ -296,10 +296,10 @@ if (voteSummary) {
 
   voteBarHTML = `
   <div style="margin: 1.5em 0;">
-    <!-- Total Votes -->
-    <div style="position: relative; height: 32px; background: #d3d3d3; border: 1px solid #999; border-radius: 4px; width: 100%;" title="Total Votes: ${total}">
+    <!-- Outer Total Votes Bar -->
+    <div style="position: relative; height: 32px; background: #d3d3d3; border: 1px solid #999; width: 100%;">
       
-      <!-- Valid Votes (slightly narrower) -->
+      <!-- Valid Votes Bar -->
       <div style="
         position: absolute;
         height: 20px;
@@ -307,11 +307,10 @@ if (voteSummary) {
         left: 0;
         background: #888;
         width: ${validPct}%;
-        border-radius: 3px;
         z-index: 2;
-      " title="Valid Votes: ${valid}"></div>
+      "></div>
 
-      <!-- Winning Votes (thinnest) -->
+      <!-- Winning Votes Bar -->
       <div style="
         position: absolute;
         height: 12px;
@@ -319,9 +318,13 @@ if (voteSummary) {
         left: 0;
         background: #000;
         width: ${winningPct}%;
-        border-radius: 2px;
         z-index: 3;
-      " title="Winning Votes: ${winning}"></div>
+      "></div>
+
+      <!-- Static Labels -->
+      <span style="position: absolute; right: 4px; top: -1.4em; font-size: 0.75em; color: #000;">Winning Votes</span>
+      <span style="position: absolute; right: 4px; top: -2.6em; font-size: 0.75em; color: #333;">Valid Votes</span>
+      <span style="position: absolute; right: 4px; bottom: -1.4em; font-size: 0.75em; color: #444;">Total Votes</span>
     </div>
 
     <div style="display: flex; justify-content: space-between; font-size: 0.85em; margin-top: 0.4em;">
