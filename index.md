@@ -295,20 +295,41 @@ if (voteSummary) {
   const winningPct = Math.min(validPct, (winning / total) * 100);
 
   voteBarHTML = `
-    <div style="margin: 1em 0;">
-      <div style="position: relative; height: 24px; background: #f5f5f5; border-radius: 4px; width: 100%;">
-        <!-- Winning Votes -->
-        <div style="position: absolute; height: 100%; background: #2196f3; width: ${winningPct}%; z-index: 3;"></div>
-        <!-- Valid Votes overlay -->
-        <div style="position: absolute; height: 100%; background: rgba(76, 175, 80, 0.3); width: ${validPct}%; z-index: 2;"></div>
-      </div>
-      <div style="display: flex; justify-content: space-between; font-size: 0.85em; margin-top: 0.4em;">
-        <span>🗳 Total: ${total}</span>
-        <span>✅ Valid: ${valid}</span>
-        <span>🏆 Winning: ${winning}</span>
-      </div>
+  <div style="margin: 1.2em 0;">
+    <div style="position: relative; height: 20px; background: #ddd; border-radius: 4px; width: 100%;">
+      <!-- Valid Votes bar (slightly narrower and centered) -->
+      <div style="
+        position: absolute;
+        height: 12px;
+        top: 4px;
+        left: 0;
+        background: #4caf50;
+        width: ${validPct}%;
+        border-radius: 4px;
+        z-index: 2;
+        margin: 0 auto;
+      "></div>
+
+      <!-- Winning Vote marker -->
+      <div style="
+        position: absolute;
+        height: 100%;
+        width: 2px;
+        left: ${winningPct}%;
+        top: 0;
+        background: #0d47a1;
+        z-index: 3;
+      " title="Winning Votes"></div>
     </div>
-  `;
+
+    <div style="display: flex; justify-content: space-between; font-size: 0.85em; margin-top: 0.4em;">
+      <span>Total: ${total}</span>
+      <span>Valid: ${valid}</span>
+      <span>Winning: ${winning}</span>
+    </div>
+  </div>
+`;
+
 }
 
     contentDiv.innerHTML += `
