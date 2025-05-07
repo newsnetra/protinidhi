@@ -275,6 +275,7 @@ function updateContent() {
     const val = (c.Winners ?? '').toString().trim().toLowerCase();
     return val === 'yes';
   });
+  
 
 if (winners) {
   try {
@@ -291,22 +292,21 @@ if (winners) {
       const winning = parseInt(voteSummary["Winning Vote"]);
 
       const validPct = Math.min(100, (valid / total) * 100);
-      const winningPct = Math.min(100, (winning / total) * 100);
+      const winningPct = Math.min(validPct, (winning / total) * 100); // keep within valid range
 
       voteBarHTML = `
-  <div class="vote-bar-wrapper" style="margin: 1em 0;">
-    <div style="background: #eee; height: 20px; width: 100%; border-radius: 4px; overflow: hidden; position: relative;">
-      <div style="background: #4caf50; width: ${validPct}%; height: 100%;"></div>
-      <div style="background: #2196f3; width: ${winningPct}%; height: 100%; position: absolute; top: 0; left: 0;"></div>
-    </div>
-    <div style="display: flex; justify-content: space-between; font-size: 0.9em; margin-top: 0.3em;">
-      <span>Total Votes: ${total}</span>
-      <span>Valid Votes: ${valid}</span>
-      <span>Winning Vote: ${winning}</span>
-    </div>
-  </div>
-`;
-
+        <div class="vote-bar-wrapper" style="margin: 1em 0;">
+          <div style="background: #eee; height: 20px; width: 100%; border-radius: 4px; position: relative; overflow: hidden;">
+            <div style="background: #4caf50; width: ${validPct}%; height: 100%;"></div>
+            <div style="background: #2196f3; width: ${winningPct}%; height: 100%; position: absolute; top: 0; left: 0;"></div>
+          </div>
+          <div style="display: flex; justify-content: space-between; font-size: 0.85em; margin-top: 0.4em;">
+            <span>Total: ${total}</span>
+            <span>Valid: ${valid}</span>
+            <span>Winning: ${winning}</span>
+          </div>
+        </div>
+      `;
     }
 
     contentDiv.innerHTML += `
@@ -328,9 +328,10 @@ if (winners) {
       </div>
     `;
   } catch (e) {
-    console.error("❌ Error rendering winner block:", e);
+    console.error("❌ Error rendering winner block with vote bar:", e);
   }
 }
+
 
 
 
