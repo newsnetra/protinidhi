@@ -296,29 +296,30 @@ if (voteSummary) {
 
   voteBarHTML = `
   <div style="margin: 1.5em 0;">
-    <div style="position: relative; height: 28px; background: #ccc; border-radius: 4px; width: 100%;" title="Total Votes: ${total}">
+    <!-- Total Votes -->
+    <div style="position: relative; height: 32px; background: #d3d3d3; border: 1px solid #999; border-radius: 4px; width: 100%;" title="Total Votes: ${total}">
       
-      <!-- Valid Votes (green, narrower height) -->
+      <!-- Valid Votes (slightly narrower) -->
       <div style="
         position: absolute;
-        height: 18px;
-        top: 5px;
+        height: 20px;
+        top: 6px;
         left: 0;
-        background: #4caf50;
+        background: #888;
         width: ${validPct}%;
-        border-radius: 4px;
+        border-radius: 3px;
         z-index: 2;
       " title="Valid Votes: ${valid}"></div>
 
-      <!-- Winning Votes (orange, inside valid) -->
+      <!-- Winning Votes (thinnest) -->
       <div style="
         position: absolute;
-        height: 18px;
-        top: 5px;
+        height: 12px;
+        top: 10px;
         left: 0;
-        background: #ff9800;
+        background: #000;
         width: ${winningPct}%;
-        border-radius: 4px;
+        border-radius: 2px;
         z-index: 3;
       " title="Winning Votes: ${winning}"></div>
     </div>
@@ -330,6 +331,7 @@ if (voteSummary) {
     </div>
   </div>
 `;
+
 
 
 }
