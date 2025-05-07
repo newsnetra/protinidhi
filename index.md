@@ -311,8 +311,6 @@ if (voteSummary) {
   `;
 }
 
-    }
-
     contentDiv.innerHTML += `
       ${voteBarHTML}
       <div class="winner-block">
