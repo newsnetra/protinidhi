@@ -113,13 +113,13 @@ font-weight: 500;
   width: 40px;
   height: 40px;
   object-fit: cover;
-  transition: border-radius 0.2s, border 0.2s;
+  order: 1px solid transparent;
 }
 
 /* Add circular border on li hover */
 #other-candidates li:hover .party-icon {
   border-radius: 50%;
-  border: 2px solid #ccc;
+  border: 1px solid #000;
 }
 
 
