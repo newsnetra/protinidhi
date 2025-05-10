@@ -154,6 +154,10 @@ font-weight: 500;
   align-items: flex-start;
 }
 
+.nonwinner-card:hover {
+background: lightgray;
+}
+
 .nonwinner-card-inner {
   display: flex;
   gap: 0.75rem;
