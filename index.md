@@ -52,7 +52,6 @@ background-color: #F2F1EE;
     font-weight: 700;
     font-size: .875rem;
     line-height: 1.25rem;
-    border-radius: .375rem;
     display: inline-flex;
     margin-bottom: .2rem;
     padding: 0.2rem 0.4rem;
@@ -123,14 +122,29 @@ font-weight: 500;
   border: 2px solid #ccc;
 }
 
+
 .nonwinner-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: repeat(1, 1fr); /* default: 1 column */
   gap: 0.75rem;
   list-style: none;
   padding: 0;
   margin: 0.5rem 0;
 }
+
+@media (min-width: 600px) {
+  .nonwinner-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 900px) {
+  .nonwinner-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+
 .nonwinner-card {
   padding: 0.75rem;
   background: #f9f9f9;
@@ -151,7 +165,7 @@ font-weight: 500;
 }
 
 .nonwinner-name {
-  font-weight: 700;
+  font-weight: 300;
   font-size: 1rem;
   margin-bottom: 0.2rem;
 }
@@ -183,7 +197,6 @@ font-weight: 500;
   font-size: 1rem;
   font-family: inherit;
   color: #333;
-  border-radius: 6px;
   background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="8" viewBox="0 0 12 8"><path fill="%236C6B66" d="M6 8L0 0h12z"/></svg>');
   background-repeat: no-repeat;
   background-position: right 1em center;
@@ -297,15 +310,15 @@ if (voteSummary) {
   voteBarHTML = `
   <div style="margin: 1.5em 0;">
     <!-- Total Votes -->
-    <div style="position: relative; height: 32px; background: #d3d3d3; border: 1px solid #999; width: 100%;" title="Total Votes: ${total}">
+    <div style="position: relative; height: 45px; background: #fff324; border: 3px solid #000; width: 100%;" title="Total Votes: ${total}">
       
       <!-- Valid Votes (slightly narrower) -->
       <div style="
         position: absolute;
-        height: 20px;
-        top: 6px;
+        height: 30px;
+        top: 7px;
         left: 0;
-        background: #888;
+        background: #f78c0f;
         width: ${validPct}%;
         z-index: 2;
       " title="Valid Votes: ${valid}"></div>
@@ -313,10 +326,10 @@ if (voteSummary) {
       <!-- Winning Votes (thinnest) -->
       <div style="
         position: absolute;
-        height: 12px;
-        top: 10px;
+        height: 20px;
+        top: 12px;
         left: 0;
-        background: #000;
+        background: #e63900;
         width: ${winningPct}%;
         z-index: 3;
       " title="Winning Votes: ${winning}"></div>
