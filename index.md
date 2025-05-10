@@ -113,7 +113,7 @@ font-weight: 500;
   width: 40px;
   height: 40px;
   object-fit: cover;
-  order: 1px solid transparent;
+  border: 1px solid transparent;
 }
 
 /* Add circular border on li hover */
